@@ -20,7 +20,6 @@
 """Dismantle is a Python package / plugin / extension manager."""
 import logging
 from logging import NullHandler
-
 from dismantle.__version__ import __version__  # noqa: F401
 
 
