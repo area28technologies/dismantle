@@ -86,7 +86,7 @@ def test_install_no_destination(datadir: Path) -> None:
 def test_install_directory_exists(datadir: Path) -> None:
     name = '@scope-one/package-one'
     src = datadir.join(name)
-    dest = datadir.join('package-existing')
+    dest = datadir.join('directory_exists')
     message = 'destination already exists'
     package = LocalPackageHandler(name, src)
     assert package.installed is False

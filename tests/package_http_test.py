@@ -81,7 +81,7 @@ def test_notfound(httpserver: HTTPServer, datadir) -> None:
 def test_install_dir_exists(httpserver: HTTPServer, datadir: Path) -> None:
     name = '@scope-one/package-one'
     src = httpserver.url_for('/package.zip')
-    dest = 'package-existing'
+    dest = 'directory_exists'
     message = 'destination already exists'
     with open(datadir.join('package.zip'), 'rb') as pkg_file:
         data = pkg_file.read()
