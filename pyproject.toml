@@ -61,6 +61,9 @@ pylint = ["+F*", "+E*"]
 pep8-naming = ["+*"]
 mccabe = ["+*"]
 
+[tool.flakehell.exceptions."tests/"]
+pylint = ["-S101"]
+
 [tool.pylint."MESSAGES CONTROL"]
 enable = "all"
 
