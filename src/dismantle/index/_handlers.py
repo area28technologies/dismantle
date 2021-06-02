@@ -54,9 +54,11 @@ class JsonFileIndexHandler(IndexHandler):
     """Local file handler."""
     def __init__(self, path: str) -> None:
         """With the given path, process the data and return the results."""
+        path = str(path)[7:] if str(path)[:7] == 'file://' else str(path)
         self._path = Path(path)
         if not self._path.exists():
-            raise FileNotFoundError
+            message = 'index file not found'
+            raise FileNotFoundError(message)
         with open(self._path) as json_file:
             self._data = json.load(json_file)
 

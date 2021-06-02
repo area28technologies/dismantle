@@ -42,6 +42,12 @@ def test_populated(datadir):
     assert isinstance(index, IndexHandler) is True
 
 
+def test_rfc8089(datadir):
+    path = 'file://' + str(datadir.join('index_populated.json'))
+    index = JsonFileIndexHandler(path)
+    assert isinstance(index, IndexHandler) is True
+
+
 def test_outdated(datadir):
     index = JsonFileIndexHandler(datadir.join('index_populated.json'))
     assert index.outdated is False
