@@ -13,14 +13,9 @@
 # limitations under the License.
 # =============================================================================
 from pathlib import Path
-from dismantle import __version__
 from dismantle.extension import Extensions
 from dismantle.index import JsonFileIndexHandler
 from dismantle.package import LocalPackageHandler
-
-
-def test_version():
-    assert __version__ == '0.1.0'
 
 
 def test_full(datadir: Path) -> None:
