@@ -1,0 +1,32 @@
+{
+  "@scope-one/package-one": {
+    "name": "@scope-one/package-one",
+    "version": "0.1.0",
+    "path": "@scope-one/package-one"
+  },
+  "@scope-one/package-two": {
+    "name": "@scope-one/package-two",
+    "version": "0.1.0",
+    "path": "@scope-one/package-two"
+  },
+  "@scope-one/package-three": {
+    "name": "@scope-one/package-three",
+    "version": "0.1.0",
+    "path": "@scope-one/package-three"
+  },
+  "@scope-two/package-one": {
+    "name": "@scope-two/package-one",
+    "version": "0.1.0",
+    "path": "@scope-two/package-one"
+
+  "@scope-two/package-two": {
+    "name": "@scope-two/package-two",
+    "version": "0.1.0",
+    "path": "@scope-two/package-two"
+  },
+  "@scope-three/package-one": {
+    "name": "@scope-three/package-one",
+    "version": "0.1.0",
+    "path": "@scope-three/package-one"
+  }
+}
