@@ -77,7 +77,7 @@ class LocalPackageHandler(PackageHandler):
         self._meta['name'] = name
         self._path = None
         self._installed = False
-        self._src = Path(src)
+        self._src = str(src)[7:] if str(src)[:7] == 'file://' else src
         if formats is None:
             formats = [DirectoryPackageFormat]
         for current_format in formats:
@@ -113,13 +113,14 @@ class LocalPackageHandler(PackageHandler):
     @staticmethod
     def grasps(path: any) -> bool:
         """Check if a directory on the local filesystem has been provided."""
-        path = str(path)[7:] if str(path)[:7] == 'file://' else str(path)
+        path = str(path)[7:] if str(path)[:7] == 'file://' else path
         return Path(str(path)).exists()
 
     def install(self, path: str = None, version: str = None) -> bool:
         """The local package handler does not install the package. No version
         control exists for the directory package type.
         """
+        path = str(path)[7:] if str(path)[:7] == 'file://' else path
         self._path = path if path else self._src
         self._format.extract(self._src, self._path)
         self._meta = {**self._meta, **self._load_metadata(self._path)}
@@ -143,6 +144,7 @@ class LocalPackageHandler(PackageHandler):
 
     def _load_metadata(self, path: Path):
         """Load the package.json file into memory."""
+        path = Path(str(path)[7:] if str(path)[:7] == 'file://' else path)
         try:
             with open(path / 'package.json') as package:
                 meta = json.load(package)
@@ -163,6 +165,7 @@ class LocalPackageHandler(PackageHandler):
     @staticmethod
     def _remove_files(path: Path) -> None:
         """Recursively remove the path and all its sub items."""
+        path = str(path)[7:] if str(path)[:7] == 'file://' else path
         try:
             shutil.rmtree(path)
         except OSError:
