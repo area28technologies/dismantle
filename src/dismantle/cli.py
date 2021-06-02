@@ -28,4 +28,3 @@ def main(args=None):
     app = '%(prog)s version ' + __version__
     parser.add_argument('-v', '--version', action='version', version=app)
     args = parser.parse_args(args)
-    # args.func(args)
