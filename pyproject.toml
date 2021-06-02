@@ -37,6 +37,7 @@ mypy-extensions = "^0.4.3"
 pylint = "^2.8.2"
 pep8-naming = "^0.11.1"
 pytest-cov = "^2.12.0"
+pytest-httpserver = "^1.0.0"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
