@@ -27,6 +27,11 @@ def test_grasp_exists(datadir: Path) -> None:
     assert TgzPackageFormat.grasps(src) is True
 
 
+def test_grasp_file_url(datadir: Path) -> None:
+    src = f'file://{datadir.join("package.tgz")}'
+    assert TgzPackageFormat.grasps(src) is True
+
+
 def test_grasp_exists_tgz(datadir: Path) -> None:
     src = datadir.join('package.tgz')
     assert TgzPackageFormat.grasps(src) is True

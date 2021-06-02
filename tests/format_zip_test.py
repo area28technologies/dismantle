@@ -27,6 +27,11 @@ def test_grasp_exists(datadir: Path) -> None:
     assert ZipPackageFormat.grasps(src) is True
 
 
+def test_grasp_file_url(datadir: Path) -> None:
+    src = f'file://{datadir.join("package.zip")}'
+    assert ZipPackageFormat.grasps(src) is True
+
+
 def test_grasp_not_supported(datadir: Path) -> None:
     src = datadir.join('directory_src')
     assert ZipPackageFormat.grasps(src) is False

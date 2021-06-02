@@ -27,6 +27,11 @@ def test_grasp_exists(datadir: Path) -> None:
     assert TarPackageFormat.grasps(src) is True
 
 
+def test_grasp_file_url(datadir: Path) -> None:
+    src = f'file://{datadir.join("package.tar")}'
+    assert TarPackageFormat.grasps(src) is True
+
+
 def test_grasp_not_supported(datadir: Path) -> None:
     src = datadir.join('directory_src')
     assert TarPackageFormat.grasps(src) is False

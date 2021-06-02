@@ -181,9 +181,10 @@ def test_verification_value(datadir: Path) -> None:
 def test_uninstall(datadir: Path) -> None:
     name = '@scope-one/package-one'
     src = datadir.join(name)
+    dest = datadir.join('test_uninstall')
     package = LocalPackageHandler(name, src)
     assert package.installed is False
-    package.install(version='0.0.1')
+    package.install(dest, version='0.0.1')
     assert package.installed is True
     assert os.path.exists(src)
     assert package.uninstall() is True
