@@ -69,7 +69,7 @@ balanced_wrapping = true
 lines_after_imports = 2
 lines_between_sections = -1
 include_trailing_comma = false
-multi_line_output = 2
+multi_line_output = 3
 color_output = true
 
 [tool.coverage.paths]
