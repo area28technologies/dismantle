@@ -41,5 +41,5 @@ def datadir(tmpdir, request):
 
 @pytest.fixture(scope="session")
 def httpserver_listen_address():
-    """Use port 9090 to ensure not to conflict with Area28s main port."""
+    """Use port 9090 for testing."""
     return ("127.0.0.1", 9090)
