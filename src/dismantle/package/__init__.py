@@ -19,11 +19,7 @@ from ._formats import (
     TgzPackageFormat,
     ZipPackageFormat
 )
-from ._handlers import (
-    HttpPackageHandler,
-    LocalPackageHandler,
-    PackageHandler
-)
+from ._handlers import HttpPackageHandler, LocalPackageHandler, PackageHandler
 
 
 __all__ = [
@@ -36,14 +32,3 @@ __all__ = [
     'TarPackageFormat',
     'TgzPackageFormat'
 ]
-
-# IDEAS: --- package ----------------------------
-# IDEAS: Package handlers for multiple package types
-# IDEAS: Update packages, show latest version, show current version
-# IDEAS: Get package information (author, description, ...)
-# IDEAS: Verify package hash
-# IDEAS: Create a package
-# IDEAS: Submit a package (needs a handler)
-
-# load manifest handler
-# load installed handler
