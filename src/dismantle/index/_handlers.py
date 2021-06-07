@@ -18,35 +18,35 @@ import json
 import tempfile
 from hashlib import md5
 from pathlib import Path
-from typing import Union
+from typing import Any, Iterator, Union
 import requests
 
 
 class IndexHandler(metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
-    def __getitem__(self, index):
+    def __getitem__(self, index) -> Any:
         ...
 
     @abc.abstractmethod
-    def __len__(self):
+    def __len__(self) -> int:
         ...
 
     @abc.abstractmethod
-    def __iter__(self):
+    def __iter__(self) -> Iterator:
         ...
 
     @abc.abstractmethod
-    def find(self):
+    def find(self) -> Union[list, None]:
         ...
 
     @abc.abstractmethod
-    def update(self):
+    def update(self) -> bool:
         ...
 
     @property
     @abc.abstractmethod
-    def outdated(self):
+    def outdated(self) -> bool:
         ...
 
 
@@ -62,15 +62,15 @@ class JsonFileIndexHandler(IndexHandler):
         with open(self._path) as json_file:
             self._data = json.load(json_file)
 
-    def __getitem__(self, index):
+    def __getitem__(self, index) -> any:
         """Get an item from the _data list read from the json file."""
         return self._data.__getitem__(index)
 
-    def __len__(self):
+    def __len__(self) -> int:
         """Return the length of the _data list returned from the json file."""
         return self._data.__len__()
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator:
         """Return the list of packages contained within the index."""
         return iter(self._data)
 
@@ -109,15 +109,15 @@ class JsonUrlIndexHandler(IndexHandler):
         with open(self._cached_index) as json_file:
             self._data = json.load(json_file)
 
-    def __getitem__(self, index):
+    def __getitem__(self, index) -> Any:
         """Get an item from the _data list read from the json file."""
         return self._data.__getitem__(index)
 
-    def __len__(self):
+    def __len__(self) -> int:
         """Return the length of the _data list returned from the json file."""
         return self._data.__len__()
 
-    def __iter__(self):
+    def __iter__(self) -> Iterator:
         """Return the list of packages contained within the index."""
         return iter(self._data)
 
