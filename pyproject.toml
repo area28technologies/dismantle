@@ -4,10 +4,26 @@ version = "0.4.0"
 description = "Python package / plugin / extension manager"
 authors = ["Gary Stidston-Broadbent <dismantle@garysb.com>"]
 license = "Apache License, Version 2.0"
-readme = "README.rst"
-homepage = "https://garysb.com"
-include = [ "LICENSE", "NOTICE", "README.rst", "docs", "tests"]
-packages = [ { include = "dismantle", from = "src" } ]
+readme = "README.md"
+include = [
+    "LICENSE",
+    "NOTICE",
+    "README.md",
+    "docs",
+    "tests"
+]
+packages = [{include = "dismantle", from = "src"}]
+homepage = "https://github.com/garysb/dismantle"
+repository = "https://github.com/garysb/dismantle"
+documentation = "https://github.com/garysb/dismantle"
+keywords = [
+    "packaging",
+    "dependency",
+    "extension",
+    "plugin",
+    "module",
+    "version"
+]
 classifiers = [
     "Operating System :: OS Independent",
     "Natural Language :: English",
