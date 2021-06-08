@@ -26,8 +26,7 @@ log = logging.getLogger(__name__).addHandler(NullHandler())
 
 class Extensions:
     """Search through the installed packages and find extensions."""
-    def __init__(self, types, packages, prefix):
-        """ """
+    def __init__(self, types, packages, prefix) -> None:
         self._packages = packages
         self._extensions = {}
         self._directory = 'extensions'
@@ -44,7 +43,7 @@ class Extensions:
         self._find()
         self._register()
 
-    def _find(self):
+    def _find(self) -> None:
         """Search through the packages and find all extensions. """
         for x in self._packages.values():
             # set the package prefix
@@ -84,7 +83,7 @@ class Extensions:
             log.error('error in {} ({})'.format(prefix, e))
         return module
 
-    def _register(self):
+    def _register(self) -> None:
         """Register extensions."""
         for i in self._imports.values():
             for cls, cls_name in ((getattr(i, name), name) for name in dir(i)):
@@ -94,7 +93,7 @@ class Extensions:
                             name = '.'.join([i.prefix, cls_name])
                             self._extensions[subclass._category][name] = cls
 
-    def category(self, category):
+    def category(self, category) -> list:
         return self._extensions[category]
 
     @property
@@ -102,9 +101,9 @@ class Extensions:
         return list(self._extensions.keys())
 
     @property
-    def extensions(self):
+    def extensions(self) -> dict:
         return self._extensions
 
     @property
-    def imports(self):
+    def imports(self) -> dict:
         return self._imports
