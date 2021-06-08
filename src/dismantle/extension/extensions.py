@@ -24,13 +24,13 @@ from . import IExtension
 class Extensions:
     """Search through the installed packages and find extensions."""
     def __init__(self, types, packages, prefix) -> None:
+        """Search through all provided extensions and register them."""
         self._packages = packages
         self._extensions = {}
         self._directory = 'extensions'
         self._prefix = prefix
         self._imports = {}
         self._exclude = (['__pycache__'])
-
         # check that the types are a subclass of IExtension
         if not all([issubclass(i, IExtension) for i in types]):
             raise ValueError('all exntesion types must extend IExtension')
@@ -42,9 +42,9 @@ class Extensions:
 
     def _find(self) -> None:
         """Search through the packages and find all extensions. """
-        for x in self._packages.values():
+        for package in self._packages.values():
             # set the package prefix
-            _prefix = x.name
+            _prefix = package.name
             # check if the package has an init file
             with suppress(KeyError):
                 root, paths, _ = next(os.walk(package.path))
@@ -53,23 +53,20 @@ class Extensions:
                 ext_files = os.path.join(root, self._directory)
                 for root, dirs, files in os.walk(ext_files, topdown=True):
                     dirs[:] = [d for d in dirs if d not in self._exclude]
-
                     for name in files:
                         # get the path from the beginning of the module
                         fd = os.path.splitext(name)[0]
+                        ext_length = len(ext_files)
                         full_path = os.path.join(root, fd)
-                        v = full_path[len(ext_files):].replace(os.sep, '.')
-                        prefix = _prefix + '.extension' + v
+                        path = full_path[ext_length:].replace(os.sep, '.')
+                        prefix = _prefix + '.extension' + path
                         self._imports[prefix] = self._load(full_path, prefix)
                         self._imports[prefix].prefix = prefix
 
     def _load(self, path, prefix):
-        """ Python 3.5 and up. (I hate you package system). """
-        if os.path.isdir(path):
-            path = path + '/__init__.py'
-        else:
-            path = path + '.py'
-
+        """Python 3.5 and up. (I hate you package system)."""
+        ending = '/__init__.py' if os.path.isdir(path) else '.py'
+        path = Path(f'{path}{ending}')
         spec = importlib.util.spec_from_file_location(prefix, path)
         module = importlib.util.module_from_spec(spec)
         try:
