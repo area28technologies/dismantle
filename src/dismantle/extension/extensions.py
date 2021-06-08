@@ -16,7 +16,8 @@
 
 import importlib.util
 import os
-from logging import NullHandler
+from contextlib import suppress
+from pathlib import Path
 from . import IExtension
 
 
@@ -45,10 +46,8 @@ class Extensions:
             # set the package prefix
             _prefix = x.name
             # check if the package has an init file
-            try:
-                root, paths, filenames = next(os.walk(x.path))
-            except KeyError:
-                continue
+            with suppress(KeyError):
+                root, paths, _ = next(os.walk(package.path))
             # check if we have an extensions directory
             if self._directory in paths:
                 ext_files = os.path.join(root, self._directory)
