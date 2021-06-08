@@ -15,13 +15,9 @@
 """Extensions locator."""
 
 import importlib.util
-import logging
 import os
 from logging import NullHandler
 from . import IExtension
-
-
-log = logging.getLogger(__name__).addHandler(NullHandler())
 
 
 class Extensions:
@@ -80,7 +76,7 @@ class Extensions:
         try:
             spec.loader.exec_module(module)
         except Exception as e:  # NOQA: E722
-            log.error('error in {} ({})'.format(prefix, e))
+            raise ModuleNotFoundError(f'error in {prefix} ({e})')
         return module
 
     def _register(self) -> None:
