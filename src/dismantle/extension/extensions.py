@@ -13,9 +13,9 @@
 # limitations under the License.
 # =============================================================================
 """Extensions locator."""
-
 import importlib.util
 import os
+import sys
 from contextlib import suppress
 from pathlib import Path
 from . import IExtension
@@ -69,6 +69,7 @@ class Extensions:
         path = Path(f'{path}{ending}')
         spec = importlib.util.spec_from_file_location(prefix, path)
         module = importlib.util.module_from_spec(spec)
+        sys.modules[prefix] = module
         try:
             spec.loader.exec_module(module)
         except Exception as e:  # NOQA: E722
