@@ -30,7 +30,7 @@ class Extensions:
         self._directory = 'extensions'
         self._prefix = prefix
         self._imports = {}
-        self._exclude = (['__pycache__'])
+        self._exclude = (['__pycache__', '.DS_Store'])
         # check that the types are a subclass of IExtension
         if not all([issubclass(i, IExtension) for i in types]):
             raise ValueError('all exntesion types must extend IExtension')
