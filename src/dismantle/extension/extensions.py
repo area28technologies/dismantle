@@ -47,7 +47,7 @@ class Extensions:
             _prefix = package.name
             # check if the package has an init file
             with suppress(KeyError):
-                root, paths, _ = next(os.walk(package.path))
+                root, paths, _ = next(os.walk(package._path))
             # check if we have an extensions directory
             if self._directory in paths:
                 ext_files = os.path.join(root, self._directory)
