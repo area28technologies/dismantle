@@ -31,6 +31,7 @@ class Extensions:
         self._prefix = prefix
         self._imports = {}
         self._exclude = (['__pycache__', '.DS_Store'])
+        self._include = ('.py', '.pyc')
         # check that the types are a subclass of IExtension
         if not all([issubclass(i, IExtension) for i in types]):
             raise ValueError('all exntesion types must extend IExtension')
@@ -53,6 +54,7 @@ class Extensions:
                 ext_files = os.path.join(root, self._directory)
                 for root, dirs, files in os.walk(ext_files, topdown=True):
                     dirs[:] = [d for d in dirs if d not in self._exclude]
+                    files[:] = [f for f in files if f.endswith(self._include)]
                     for name in files:
                         # get the path from the beginning of the module
                         fd = os.path.splitext(name)[0]
