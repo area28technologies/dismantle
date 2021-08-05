@@ -1,0 +1,7 @@
+{
+  "@scope-one/package-five": {
+    "name": "@scope-five/package-one",
+    "version": "0.1.0",
+    "path": "@scope-five/package-one"
+  }
+}
