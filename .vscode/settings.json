@@ -1,5 +1,5 @@
 {
-  "python.linting.flake8Path": "~/.pyenv/versions/3.7.7/bin/flake8helled",
+  "python.linting.flake8Path": "~/Library/Caches/pypoetry/virtualenvs/dismantle-CCVDCyl8-py3.7/bin/flake8helled",
   "python.linting.enabled": true,
   "python.linting.flake8Enabled": true,
   "python.testing.pytestArgs": ["tests", "--no-cov"],
