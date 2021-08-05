@@ -30,8 +30,8 @@ class Extensions:
         self._directory = 'extensions'
         self._prefix = prefix
         self._imports = {}
-        self._exclude = (['__pycache__', '.DS_Store'])
-        self._include = ('.py', '.pyc')
+        self._exclude = (['__pycache__', '.git'])
+        self._include = ('.py', '.cpython-37.pyc')
         # check that the types are a subclass of IExtension
         if not all([issubclass(i, IExtension) for i in types]):
             raise ValueError('all exntesion types must extend IExtension')
@@ -56,19 +56,18 @@ class Extensions:
                     dirs[:] = [d for d in dirs if d not in self._exclude]
                     files[:] = [f for f in files if f.endswith(self._include)]
                     for name in files:
-                        # get the path from the beginning of the module
-                        fd = os.path.splitext(name)[0]
-                        ext_length = len(ext_files)
-                        full_path = os.path.join(root, fd)
-                        path = full_path[ext_length:].replace(os.sep, '.')
-                        prefix = _prefix + '.extension' + path
-                        self._imports[prefix] = self._load(full_path, prefix)
+                        path = Path(root, name)
+                        if len(path.suffixes) >= 2:
+                            n_length = len(path.stem) - len(path.suffixes[0])
+                            ext_name = path.stem[:n_length]
+                        else:
+                            ext_name = path.stem
+                        prefix = _prefix + '.extension.' + ext_name
+                        self._imports[prefix] = self._load(path, prefix)
                         self._imports[prefix].prefix = prefix
 
-    def _load(self, path, prefix):
+    def _load(self, path: Path, prefix: str):
         """Python 3.5 and up. (I hate you package system)."""
-        ending = '/__init__.py' if os.path.isdir(path) else '.py'
-        path = Path(f'{path}{ending}')
         spec = importlib.util.spec_from_file_location(prefix, path)
         module = importlib.util.module_from_spec(spec)
         sys.modules[prefix] = module
