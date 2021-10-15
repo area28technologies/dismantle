@@ -34,7 +34,10 @@ class DirectoryPackageFormat(PackageFormat):
     def grasps(path: any) -> bool:
         """Check if a directory on the local filesystem has been provided."""
         path = str(path)[7:] if str(path)[:7] == 'file://' else path
-        return Path(str(path)).is_dir()
+        try:
+            return Path(str(path)).is_dir()
+        except OSError:
+            return False
 
     @staticmethod
     def extract(src: any, dest: str) -> bool:
