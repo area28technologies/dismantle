@@ -7,7 +7,7 @@ class IExtension:
     def __init__(self) -> None:
         self._active: bool = False
 
-    def activeate(self) -> bool:
+    def activate(self) -> bool:
         self._active = True
         return self._active
 
