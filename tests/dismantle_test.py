@@ -26,11 +26,11 @@ def test_full(datadir: Path) -> None:
         '@scope-one/package-three.extension.blue.BlueColorExtension',
     ]
     assert list(extensions.extensions.keys()) == ['color', 'greeting']
-    assert list(extensions.imports.keys()) == [
+    assert list(extensions.imports.keys()).sort() == [
         '@scope-one/package-one.extension.hello',
         '@scope-one/package-one.extension.green',
         '@scope-one/package-two.extension.afternoon',
         '@scope-one/package-two.extension.red',
         '@scope-one/package-three.extension.goodbye',
         '@scope-one/package-three.extension.blue'
-    ]
+    ].sort()
