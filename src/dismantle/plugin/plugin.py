@@ -1,9 +1,9 @@
 import logging
-from logging import NullHandler
 from . import _plugins
 
 
-log = logging.getLogger(__name__).addHandler(NullHandler())
+log = logging.getLogger(__name__)
+log.addHandler(logging.NullHandler())
 
 
 class plugin:  # noqa: N801
