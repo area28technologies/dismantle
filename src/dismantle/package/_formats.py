@@ -3,6 +3,7 @@ import shutil
 import tarfile
 import zipfile
 from pathlib import Path
+from typing import Union
 
 
 class PackageFormat(metaclass=abc.ABCMeta):
@@ -66,9 +67,8 @@ class ZipPackageFormat(PackageFormat):
         return True
 
     @staticmethod
-    def extract(src: str, dest: str) -> bool:
-        """Extract the zipfile to the cache location if a copy doesn't already
-        exist."""
+    def extract(src: Union[str, Path], dest: str):
+        """Extract the zipfile to the cache location."""
         src = str(src)[7:] if str(src)[:7] == 'file://' else src
         dest = str(dest)[7:] if str(dest)[:7] == 'file://' else dest
         src = Path(src)
@@ -79,9 +79,6 @@ class ZipPackageFormat(PackageFormat):
             message = 'invalid zip file'
             raise ValueError(message)
         dest_path = Path(dest)
-        if dest_path.exists():
-            message = 'destination already exists'
-            raise FileExistsError(message)
         with zipfile.ZipFile(src, 'r') as zip_ref:
             zip_ref.extractall(dest_path)
 
@@ -99,9 +96,8 @@ class TarPackageFormat(PackageFormat):
         return True
 
     @staticmethod
-    def extract(src: str, dest: str) -> bool:
-        """Extract the tarfile to the cache location if a copy doesn't already
-        exist."""
+    def extract(src: str, dest: str):
+        """Extract the tarfile to the cache location."""
         src = str(src)[7:] if str(src)[:7] == 'file://' else src
         dest = str(dest)[7:] if str(dest)[:7] == 'file://' else dest
         src = Path(src)
@@ -112,9 +108,6 @@ class TarPackageFormat(PackageFormat):
             message = 'invalid tar file'
             raise ValueError(message)
         dest_path = Path(dest)
-        if dest_path.exists():
-            message = 'destination already exists'
-            raise FileExistsError(message)
         with tarfile.open(src, 'r') as tar_ref:
             tar_ref.extractall(dest_path)
 
@@ -132,9 +125,8 @@ class TgzPackageFormat(PackageFormat):
         return True
 
     @staticmethod
-    def extract(src: str, dest: str) -> bool:
-        """Extract the tarfile to the cache location if a copy doesn't already
-        exist."""
+    def extract(src: str, dest: str):
+        """Extract the tarfile to the cache location."""
         src = str(src)[7:] if str(src)[:7] == 'file://' else src
         dest = str(dest)[7:] if str(dest)[:7] == 'file://' else dest
         src = Path(src)
@@ -145,8 +137,5 @@ class TgzPackageFormat(PackageFormat):
             message = 'invalid tgz file'
             raise ValueError(message)
         dest_path = Path(dest)
-        if dest_path.exists():
-            message = 'destination already exists'
-            raise FileExistsError(message)
         with tarfile.open(src, 'r') as tgz_ref:
             tgz_ref.extractall(dest_path)

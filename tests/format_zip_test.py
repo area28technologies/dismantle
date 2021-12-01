@@ -55,9 +55,7 @@ def test_extract_non_existant(datadir: Path) -> None:
 def test_extract_already_exists(datadir: Path) -> None:
     src = datadir.join('package.zip')
     dest = datadir.join('directory_exists')
-    message = 'destination already exists'
-    with pytest.raises(FileExistsError, match=message):
-        ZipPackageFormat.extract(src, dest)
+    assert ZipPackageFormat.extract(src, dest) is None
 
 
 def test_extract_create(datadir: Path) -> None:
