@@ -1,5 +1,5 @@
 import os
-from pathlib import Path
+from py._path.local import LocalPath
 import pytest
 from pytest_httpserver import HTTPServer
 from pytest_httpserver.httpserver import HandlerType
@@ -33,12 +33,12 @@ def test_grasp_invalid_ftp() -> None:
     assert HttpPackageHandler.grasps(src) is False
 
 
-def test_grasp_invalid_file(datadir: Path) -> None:
+def test_grasp_invalid_file(datadir: LocalPath) -> None:
     src = datadir.join('package.zip')
     assert HttpPackageHandler.grasps(src) is False
 
 
-def test_grasp_invalid_path(datadir: Path) -> None:
+def test_grasp_invalid_path(datadir: LocalPath) -> None:
     src = datadir.join('@scope-one/package-one')
     assert HttpPackageHandler.grasps(src) is False
 
@@ -64,7 +64,7 @@ def test_notfound(httpserver: HTTPServer, datadir) -> None:
         package.install(dest)
 
 
-def test_install_dir_exists(httpserver: HTTPServer, datadir: Path) -> None:
+def test_install_dir_exists(httpserver: HTTPServer, datadir: LocalPath) -> None:
     name = '@scope-one/package-one'
     src = httpserver.url_for('/package.zip')
     dest = 'directory_exists'
@@ -79,7 +79,7 @@ def test_install_dir_exists(httpserver: HTTPServer, datadir: Path) -> None:
     assert package.installed is False
 
 
-def test_install_create(httpserver: HTTPServer, datadir: Path) -> None:
+def test_install_create(httpserver: HTTPServer, datadir: LocalPath) -> None:
     name = '@scope-one/package-one'
     src = httpserver.url_for('/package.zip')
     dest = datadir.join('package-create')
@@ -93,7 +93,7 @@ def test_install_create(httpserver: HTTPServer, datadir: Path) -> None:
     assert os.path.exists(package._cache)
 
 
-def test_meta_value_nonexistant(httpserver: HTTPServer, datadir: Path) -> None:
+def test_meta_value_nonexistant(httpserver: HTTPServer, datadir: LocalPath) -> None:
     name = '@scope-one/package-one'
     src = httpserver.url_for('/package.zip')
     dest = datadir.join('package-create')
@@ -108,7 +108,7 @@ def test_meta_value_nonexistant(httpserver: HTTPServer, datadir: Path) -> None:
         assert package.nonexistant
 
 
-def test_name(httpserver: HTTPServer, datadir: Path) -> None:
+def test_name(httpserver: HTTPServer, datadir: LocalPath) -> None:
     name = '@scope-one/package-one'
     src = httpserver.url_for('/package.zip')
     dest = datadir.join('package-create')
@@ -122,7 +122,7 @@ def test_name(httpserver: HTTPServer, datadir: Path) -> None:
     assert package.name != '@scope-two/package-one'
 
 
-def test_name_invalid(httpserver: HTTPServer, datadir: Path) -> None:
+def test_name_invalid(httpserver: HTTPServer, datadir: LocalPath) -> None:
     name = '@scope-one/package-two'
     src = httpserver.url_for('/package.zip')
     dest = datadir.join('package-create')
@@ -137,7 +137,7 @@ def test_name_invalid(httpserver: HTTPServer, datadir: Path) -> None:
     assert package.installed is False
 
 
-def test_name_missing(httpserver: HTTPServer, datadir: Path) -> None:
+def test_name_missing(httpserver: HTTPServer, datadir: LocalPath) -> None:
     name = '@scope-one/package-one'
     src = httpserver.url_for('/missing_name.zip')
     dest = datadir.join('package-create')
@@ -150,7 +150,7 @@ def test_name_missing(httpserver: HTTPServer, datadir: Path) -> None:
         package.install(dest, '0.0.1')
 
 
-def test_version(httpserver: HTTPServer, datadir: Path) -> None:
+def test_version(httpserver: HTTPServer, datadir: LocalPath) -> None:
     name = '@scope-one/package-one'
     src = httpserver.url_for('/package.zip')
     dest = datadir.join('package-version')
@@ -163,7 +163,7 @@ def test_version(httpserver: HTTPServer, datadir: Path) -> None:
     assert package.version != '1.0.1'
 
 
-def test_version_missing(httpserver: HTTPServer, datadir: Path) -> None:
+def test_version_missing(httpserver: HTTPServer, datadir: LocalPath) -> None:
     name = '@scope-one/package-one'
     src = httpserver.url_for('/missing_version.zip')
     dest = datadir.join('package-create')
@@ -176,7 +176,7 @@ def test_version_missing(httpserver: HTTPServer, datadir: Path) -> None:
         package.install(dest, '0.0.1')
 
 
-def test_verification_none(httpserver: HTTPServer, datadir: Path) -> None:
+def test_verification_none(httpserver: HTTPServer, datadir: LocalPath) -> None:
     name = '@scope-one/package-one'
     src = httpserver.url_for('/package.zip')
     with open(datadir.join('package.zip'), 'rb') as pkg_file:
@@ -186,7 +186,7 @@ def test_verification_none(httpserver: HTTPServer, datadir: Path) -> None:
     assert package.verify() is True
 
 
-def test_verification_value(httpserver: HTTPServer, datadir: Path) -> None:
+def test_verification_value(httpserver: HTTPServer, datadir: LocalPath) -> None:
     name = '@scope-one/package-one'
     src = httpserver.url_for('/package.zip')
     message = 'the http package handler does not support verification'
@@ -198,7 +198,7 @@ def test_verification_value(httpserver: HTTPServer, datadir: Path) -> None:
         package.verify('a0aea27ca371ef0e715c594300e22ef9')
 
 
-def test_uninstall(httpserver: HTTPServer, datadir: Path) -> None:
+def test_uninstall(httpserver: HTTPServer, datadir: LocalPath) -> None:
     name = '@scope-one/package-one'
     src = httpserver.url_for('/package.zip')
     dest = datadir.join('package-uninstall')
@@ -214,7 +214,7 @@ def test_uninstall(httpserver: HTTPServer, datadir: Path) -> None:
     assert package.installed is False
 
 
-def test_zip_format(httpserver: HTTPServer, datadir: Path) -> None:
+def test_zip_format(httpserver: HTTPServer, datadir: LocalPath) -> None:
     name = '@scope-one/package-one'
     src = httpserver.url_for('/package.zip')
     dest = datadir.join('package-zip')
@@ -232,7 +232,7 @@ def test_zip_format(httpserver: HTTPServer, datadir: Path) -> None:
     assert package.installed is False
 
 
-def test_tar_format(httpserver: HTTPServer, datadir: Path) -> None:
+def test_tar_format(httpserver: HTTPServer, datadir: LocalPath) -> None:
     name = '@scope-one/package-one'
     src = httpserver.url_for('/package.tar')
     dest = datadir.join('package-tar')
@@ -250,7 +250,7 @@ def test_tar_format(httpserver: HTTPServer, datadir: Path) -> None:
     assert package.installed is False
 
 
-def test_tgz_format(httpserver: HTTPServer, datadir: Path) -> None:
+def test_tgz_format(httpserver: HTTPServer, datadir: LocalPath) -> None:
     name = '@scope-one/package-one'
     src = httpserver.url_for('/package.tgz')
     dest = datadir.join('package-tgz')
@@ -268,7 +268,7 @@ def test_tgz_format(httpserver: HTTPServer, datadir: Path) -> None:
     assert package.installed is False
 
 
-def test_multi_format(httpserver: HTTPServer, datadir: Path) -> None:
+def test_multi_format(httpserver: HTTPServer, datadir: LocalPath) -> None:
     name = '@scope-one/package-one'
     src = httpserver.url_for('/package.tgz')
     dest = datadir.join('package-tgz')
@@ -292,7 +292,7 @@ def test_multi_format(httpserver: HTTPServer, datadir: Path) -> None:
     assert package.installed is False
 
 
-def test_no_format(httpserver: HTTPServer, datadir: Path) -> None:
+def test_no_format(httpserver: HTTPServer, datadir: LocalPath) -> None:
     name = '@scope-one/package-one'
     src = httpserver.url_for('/package.zip')
     with open(datadir.join('package.zip'), 'rb') as pkg_file:
@@ -303,7 +303,7 @@ def test_no_format(httpserver: HTTPServer, datadir: Path) -> None:
         HttpPackageHandler(name, src, [])
 
 
-def test_missing_format(httpserver: HTTPServer, datadir: Path) -> None:
+def test_missing_format(httpserver: HTTPServer, datadir: LocalPath) -> None:
     name = '@scope-one/package-one'
     src = httpserver.url_for('/package.zip')
     with open(datadir.join('package.zip'), 'rb') as pkg_file:
