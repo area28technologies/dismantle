@@ -69,18 +69,6 @@ def test_install_no_destination(datadir: LocalPath) -> None:
     assert package.installed is True
 
 
-def test_install_directory_exists(datadir: LocalPath) -> None:
-    name = '@scope-one/package-one'
-    src = datadir.join(name)
-    dest = datadir.join('directory_exists')
-    message = 'destination already exists'
-    package = LocalPackageHandler(name, src)
-    assert package.installed is False
-    with pytest.raises(FileExistsError, match=message):
-        package.install(dest, '0.0.1')
-    assert package.installed is False
-
-
 def test_install_directory_create(datadir: LocalPath) -> None:
     name = '@scope-one/package-one'
     src = datadir.join(name)

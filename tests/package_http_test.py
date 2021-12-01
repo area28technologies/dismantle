@@ -68,15 +68,13 @@ def test_install_dir_exists(httpserver: HTTPServer, datadir: LocalPath) -> None:
     name = '@scope-one/package-one'
     src = httpserver.url_for('/package.zip')
     dest = 'directory_exists'
-    message = 'destination already exists'
     with open(datadir.join('package.zip'), 'rb') as pkg_file:
         data = pkg_file.read()
     httpserver.expect_request("/package.zip").respond_with_data(data)
     package = HttpPackageHandler(name, src)
     assert package.installed is False
-    with pytest.raises(FileExistsError, match=message):
-        package.install(datadir.join(dest), '0.0.1')
-    assert package.installed is False
+    assert package.install(datadir.join(dest), '0.0.1') is True
+    assert package.installed is True
 
 
 def test_install_create(httpserver: HTTPServer, datadir: LocalPath) -> None:
@@ -312,3 +310,43 @@ def test_missing_format(httpserver: HTTPServer, datadir: LocalPath) -> None:
     message = 'a valid source is required'
     with pytest.raises(FileNotFoundError, match=message):
         HttpPackageHandler(name, src, [TarPackageFormat])
+
+
+def test_same_version_does_not_call_http(httpserver: HTTPServer, datadir: LocalPath) -> None:
+    http_pkg = HttpPackageHandler(
+        '@scope-one/package-one',
+        httpserver.url_for('/package.zip'),
+        [ZipPackageFormat]
+    )
+    http_pkg._meta['version'] = '0.0.1'  # package.zip version is 0.0.1
+
+    assert http_pkg.install(f'{datadir}/@scope-one/package-one') is True
+
+
+def test_different_version_it_calls_http(httpserver: HTTPServer, datadir: LocalPath) -> None:
+    with open(datadir.join('package.zip'), 'rb') as pkg_file:
+        data = pkg_file.read()
+    httpserver.expect_request("/package.zip").respond_with_data(data)
+
+    http_pkg = HttpPackageHandler(
+        '@scope-one/package-one',
+        httpserver.url_for('/package.zip'),
+        [ZipPackageFormat]
+    )
+    http_pkg._meta['version'] = '11.3.2'
+
+    assert http_pkg.install(f'{datadir}/@scope-one/package-one') is True
+
+
+def test_call_http_if_pkg_has_no_metadata(httpserver: HTTPServer, datadir: LocalPath) -> None:
+    with open(datadir.join('package.zip'), 'rb') as pkg_file:
+        data = pkg_file.read()
+    httpserver.expect_request("/package.zip").respond_with_data(data)
+
+    http_pkg = HttpPackageHandler(
+        '@scope-one/package-one',
+        httpserver.url_for('/package.zip'),
+        [ZipPackageFormat]
+    )
+
+    assert http_pkg.install(f'{datadir}/@scope-one/package-one') is True

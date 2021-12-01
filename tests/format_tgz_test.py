@@ -68,17 +68,13 @@ def test_extract_non_existant_tgz(datadir: Path) -> None:
 def test_extract_already_exists(datadir: Path) -> None:
     src = datadir.join('package.tar.gz')
     dest = datadir.join('directory_exists')
-    message = 'destination already exists'
-    with pytest.raises(FileExistsError, match=message):
-        TgzPackageFormat.extract(src, dest)
+    assert TgzPackageFormat.extract(src, dest) is None
 
 
 def test_extract_already_exists_tgz(datadir: Path) -> None:
     src = datadir.join('package.tgz')
     dest = datadir.join('directory_exists')
-    message = 'destination already exists'
-    with pytest.raises(FileExistsError, match=message):
-        TgzPackageFormat.extract(src, dest)
+    assert TgzPackageFormat.extract(src, dest) is None
 
 
 def test_extract_create(datadir: Path) -> None:

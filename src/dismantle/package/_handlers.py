@@ -57,6 +57,7 @@ class PackageHandler(metaclass=abc.ABCMeta):
 
 class LocalPackageHandler(PackageHandler):
     """Directory package structure."""
+
     def __init__(self, name: str, src: str, formats: Optional[Formats] = None):
         """initialise the package."""
         self._meta = {}
@@ -160,6 +161,7 @@ class LocalPackageHandler(PackageHandler):
 
 class HttpPackageHandler(PackageHandler):
     """Url package structure."""
+
     def __init__(
         self,
         name: str,
@@ -172,6 +174,7 @@ class HttpPackageHandler(PackageHandler):
         self._meta['name'] = name
         self._path = None
         self._installed = False
+        self._updated = False
         self._src = src
         if not cache_dir:
             tmp_cache = tempfile.TemporaryDirectory()
@@ -220,12 +223,7 @@ class HttpPackageHandler(PackageHandler):
             return False
         return True
 
-    def install(self, path: str, version: str = None) -> bool:
-        """The local package handler does not install the package. No version
-        control exists for the directory package type.
-        """
-        self._path = path
-        self._updated = False
+    def _fetch_and_extract(self):
         headers = {'If-None-Match': self._digest}
         req = requests.get(self._src, headers=headers, allow_redirects=True)
         if req.status_code not in [200, 304]:
@@ -236,7 +234,35 @@ class HttpPackageHandler(PackageHandler):
                 cached_package.write(req.content)
             self._updated = True
         self._format.extract(self._cache, self._path)
-        self._meta = {**self._meta, **self._load_metadata(self._path)}
+
+    def install(self, path: str, version: str = None) -> bool:
+        """
+        Install the current package to the given path.
+        if there's already a package in path we'll only fetch if the version is different.
+        """
+
+        fetch_required = True
+        try:
+            existing_pkg_metadata = self._load_metadata(Path(path))
+            if existing_pkg_metadata['version'] == self._meta['version']:
+                fetch_required = False
+        except ValueError:
+            # Ignore _load_metadata errors
+            pass
+        except OSError:
+            # Ignore Not Found
+            pass
+        except KeyError:
+            # ignore if `_meta` is empty
+            pass
+
+        self._path = path
+        self._updated = False
+
+        if fetch_required:
+            self._fetch_and_extract()
+
+        self._meta = {**self._meta, **self._load_metadata(Path(self._path))}
         self._installed = True
         return True
 
@@ -271,7 +297,7 @@ class HttpPackageHandler(PackageHandler):
                     raise ValueError(message)
                 return meta
         except JSONDecodeError:
-            message = 'invalud package file format'
+            message = 'invalid package file format'
             raise ValueError(message)
 
     @staticmethod
