@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "dismantle"
-version = "0.10.0"
+version = "0.11.0"
 description = "Python package / plugin / extension manager"
 authors = ["Area28 Technologies <dev@area28.io>"]
 license = "MIT"
