@@ -41,7 +41,7 @@ class DirectoryPackageFormat(PackageFormat):
             return False
 
     @staticmethod
-    def extract(src: any, dest: str) -> bool:
+    def extract(src: any, dest: str):
         """Use the formatter to process any movement related actions."""
         src = str(src)[7:] if str(src)[:7] == 'file://' else src
         dest = str(dest)[7:] if str(dest)[:7] == 'file://' else dest
@@ -49,10 +49,12 @@ class DirectoryPackageFormat(PackageFormat):
             message = 'formatter only supports directories'
             raise ValueError(message)
         if dest != src:
-            try:
-                shutil.copytree(src, dest)
-            except FileExistsError:
-                raise FileExistsError('destination already exists')
+            shutil.rmtree(dest, ignore_errors=True)
+            shutil.copytree(
+                src,
+                dest,
+                ignore=shutil.ignore_patterns('.git', '__pycache__')
+            )
 
 
 class ZipPackageFormat(PackageFormat):
