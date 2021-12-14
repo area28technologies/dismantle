@@ -42,9 +42,9 @@ def test_extract_non_existant(datadir: Path) -> None:
 def test_extract_already_exists(datadir: Path) -> None:
     src = datadir.join('directory_src')
     dest = datadir.join('directory_exists')
-    message = 'destination already exists'
-    with pytest.raises(FileExistsError, match=message):
-        DirectoryPackageFormat.extract(src, dest)
+    DirectoryPackageFormat.extract(src, dest)
+    assert os.path.exists(dest) is True
+    assert os.path.exists(dest / 'package.json') is True
 
 
 def test_extract_create(datadir: Path) -> None:
