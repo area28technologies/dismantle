@@ -21,7 +21,6 @@ def make_uppercase(message):
 
 ```python
 """Full example using all aspects."""
-from pathlib import Path
 from dismantle.extension import Extensions, IExtension
 from dismantle.index import JsonFileIndexHandler
 from dismantle.package import LocalPackageHandler
@@ -45,8 +44,7 @@ packages = {}
 index = JsonFileIndexHandler('index.json')
 for pkg_meta in index:
     meta = index[pkg_meta]
-    path = datadir.join(meta['path'])
-    package = LocalPackageHandler(meta['name'], path)
+    package = LocalPackageHandler(meta['name'], 'foo/path')
     package._meta = {**package._meta, **meta}
     package.install()
     packages[package.name] = package

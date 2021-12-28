@@ -9,6 +9,7 @@ from . import IExtension
 
 class Extensions:
     """Search through the installed packages and find extensions."""
+
     def __init__(self, types, packages, prefix) -> None:
         """Search through all provided extensions and register them."""
         self._packages = packages
@@ -30,25 +31,18 @@ class Extensions:
     def _find(self) -> None:
         """Search through the packages and find all extensions. """
         for package in self._packages.values():
-            # set the package prefix
-            _prefix = package.name
             # check if the package has an init file
             with suppress(KeyError):
                 root, paths, _ = next(os.walk(package._path))
             # check if we have an extensions directory
             if self._directory in paths:
-                ext_files = os.path.join(root, self._directory)
-                for root, dirs, files in os.walk(ext_files, topdown=True):
+                for root, dirs, files in os.walk(os.path.join(root, self._directory), topdown=True):
                     dirs[:] = [d for d in dirs if d not in self._exclude]
                     files[:] = [f for f in files if f.endswith(self._include)]
                     for name in files:
                         path = Path(root, name)
-                        if len(path.suffixes) >= 2:
-                            n_length = len(path.stem) - len(path.suffixes[0])
-                            ext_name = path.stem[:n_length]
-                        else:
-                            ext_name = path.stem
-                        prefix = _prefix + '.extension.' + ext_name
+                        # remove the last two prefixes (e.g .cpython-37.pyc)
+                        prefix = f'{package.name}.extension.{os.path.splitext(path.stem)[0]}'
                         self._imports[prefix] = self._load(path, prefix)
                         self._imports[prefix].prefix = prefix
 

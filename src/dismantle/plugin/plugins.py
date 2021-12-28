@@ -26,13 +26,13 @@ class Plugins:
         self._directory = 'plugins'
         self._prefix = prefix
         self._imports = {}
-        self._exclude = set(['__pycache__'])
+        self._exclude = {'__pycache__'}
 
         # check that the types are a subclass of IPlugin
-        if all([issubclass(i, IPlugin) for i in types]):
-            self._types = types
-        else:
+        if not all([issubclass(i, IPlugin) for i in types]):
             raise ValueError('all plugin types must extend IPlugin')
+
+        self._types = types
         self._find()
 
     def _find(self):
