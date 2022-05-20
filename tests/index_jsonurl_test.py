@@ -1,10 +1,12 @@
 from hashlib import md5
 from json import JSONDecodeError
 from shutil import copy2
+
 import pytest
 from pytest_httpserver import HTTPServer
 from pytest_httpserver.httpserver import HandlerType
 from requests import ConnectionError
+
 from dismantle.index import IndexHandler, JsonUrlIndexHandler
 
 

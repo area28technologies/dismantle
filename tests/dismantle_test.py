@@ -1,4 +1,5 @@
 from pathlib import Path
+
 from dismantle.extension import Extensions
 from dismantle.index import JsonFileIndexHandler
 from dismantle.package import LocalPackageHandler

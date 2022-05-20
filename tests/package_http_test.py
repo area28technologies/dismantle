@@ -1,9 +1,11 @@
 import os
-from py._path.local import LocalPath
+
 import pytest
 from pytest_httpserver import HTTPServer
 from pytest_httpserver.httpserver import HandlerType
+from py._path.local import LocalPath
 from requests import ConnectionError
+
 from dismantle.package import (
     DirectoryPackageFormat,
     HttpPackageHandler,
