@@ -4,7 +4,6 @@ from .plugin import plugin
 from .plugins import Plugins
 from .register import register
 
-
 _plugins = {}
 
 __all__ = [

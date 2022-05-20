@@ -1,12 +1,15 @@
-from ._formats import (
+from dismantle.package._formats import (
     DirectoryPackageFormat,
     PackageFormat,
     TarPackageFormat,
     TgzPackageFormat,
     ZipPackageFormat
 )
-from ._handlers import HttpPackageHandler, LocalPackageHandler, PackageHandler
-
+from dismantle.package._handlers import (
+    HttpPackageHandler,
+    LocalPackageHandler,
+    PackageHandler
+)
 
 __all__ = [
     'HttpPackageHandler',

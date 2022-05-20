@@ -1,3 +1,4 @@
+"""Base handler classes."""
 import abc
 import atexit
 import json
@@ -5,6 +6,7 @@ import tempfile
 from hashlib import md5
 from pathlib import Path
 from typing import Any, Iterator, Union
+
 import requests
 
 
@@ -81,7 +83,7 @@ class JsonFileIndexHandler(IndexHandler):
 class JsonUrlIndexHandler(IndexHandler):
     """Use a json file located on a remote server."""
     def __init__(self, index: str, cache_dir: str = None) -> None:
-        """With the given path, process the data and return the results."""
+        """With given path, process the data and return the results."""
         self._index = index
         if not cache_dir:
             cache_dir = tempfile.TemporaryDirectory()
@@ -100,7 +102,7 @@ class JsonUrlIndexHandler(IndexHandler):
         return self._data.__getitem__(index)
 
     def __len__(self) -> int:
-        """Return the length of the _data list returned from the json file."""
+        """Return length of _data list returned from the json file."""
         return self._data.__len__()
 
     def __iter__(self) -> Iterator:
@@ -125,8 +127,8 @@ class JsonUrlIndexHandler(IndexHandler):
 
     @property
     def outdated(self) -> bool:
-        """Execute a head request using the requests library to check that the
-        ETag matches.
+        """Execute a head request using the requests library to check
+        that the ETag matches.
         """
         headers = {'If-None-Match': self._digest}
         req = requests.head(self._index, headers=headers, allow_redirects=True)
