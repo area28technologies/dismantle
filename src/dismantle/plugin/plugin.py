@@ -1,6 +1,6 @@
 import logging
-from . import _plugins
 
+from dismantle.plugin import _plugins
 
 log = logging.getLogger(__name__)
 log.addHandler(logging.NullHandler())

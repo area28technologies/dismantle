@@ -1,16 +1,13 @@
 """Plugins locator."""
-
 import logging
 import os
-
 
 try:
     from importlib.abc import Loader as imp
 except ImportError:
     import imp  # NOQA: F401
 
-from . import IPlugin, _plugins
-
+from dismantle.plugin import IPlugin, _plugins
 
 # enable logging
 log = logging.getLogger(__name__)

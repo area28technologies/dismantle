@@ -1,5 +1,8 @@
-from ._handlers import IndexHandler, JsonFileIndexHandler, JsonUrlIndexHandler
-
+from dismantle.index._handlers import (
+    IndexHandler,
+    JsonFileIndexHandler,
+    JsonUrlIndexHandler
+)
 
 __all__ = [
     'IndexHandler',

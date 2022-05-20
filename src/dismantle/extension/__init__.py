@@ -1,13 +1,16 @@
-"""Dismantle package manager system with support for extensions and plugins."""
+"""Provide the ability to extend a module.
 
-# IDEAS: --- extension --------------------------
-# IDEAS: Class Hook to provide extensions (add new abilities such as log types)
-# IDEAS: activate, deactivate, active
+Extensions provide the abiity to add additional functionality to a
+defined module by providing an interface that can be extended by
+multiple classes each with a new provider.
+"""
+
+# TODO: activate, deactivate, active
 
 __all__ = [
     'IExtension',
     'Extensions'
 ]
 
-from .iextension import IExtension
-from .extensions import Extensions  # noqa: I001 (needs to be after iextension)
+from dismantle.extension.extensions import Extensions
+from dismantle.extension.iextension import IExtension

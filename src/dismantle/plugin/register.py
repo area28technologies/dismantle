@@ -1,8 +1,8 @@
 import functools
 import logging
 from logging import NullHandler
-from . import _plugins
 
+from dismantle.plugin import _plugins
 
 log = logging.getLogger(__name__).addHandler(NullHandler())
 

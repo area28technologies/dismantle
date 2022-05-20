@@ -8,9 +8,14 @@ from json.decoder import JSONDecodeError
 from pathlib import Path
 from typing import List, Optional
 from urllib.parse import urlparse
-import requests
-from ._formats import DirectoryPackageFormat, PackageFormat, ZipPackageFormat
 
+import requests
+
+from dismantle.package._formats import (
+    DirectoryPackageFormat,
+    PackageFormat,
+    ZipPackageFormat
+)
 
 Formats = Optional[List[PackageFormat]]
 

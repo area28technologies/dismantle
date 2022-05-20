@@ -4,7 +4,8 @@ import os
 import sys
 from contextlib import suppress
 from pathlib import Path
-from . import IExtension
+
+from dismantle.extension.iextension import IExtension
 
 
 class Extensions:
