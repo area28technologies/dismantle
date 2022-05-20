@@ -1,5 +1,7 @@
 from json import JSONDecodeError
+
 import pytest
+
 from dismantle.index import IndexHandler, JsonFileIndexHandler
 
 

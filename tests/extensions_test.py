@@ -1,9 +1,9 @@
 import sys
 from pathlib import Path
+
 from dismantle.extension import Extensions
 from dismantle.index import JsonFileIndexHandler
 from dismantle.package import LocalPackageHandler
-from py._path.local import LocalPath
 
 
 def test_success(datadir: Path) -> None:
