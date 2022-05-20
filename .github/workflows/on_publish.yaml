@@ -1,0 +1,97 @@
+name: Publishing
+on:
+  release:
+    types: [published]
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    name: Publish code
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server!"
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+      - run: echo "💡 Fetching tag from the __version__ dunder."
+      - name: Get code version
+        run: |
+          echo "🖥️ Checking if versions match."
+          VERSION=v$(awk -F "=" '/__version__/ {print $2}' src/dismantle/__version__.py | sed "s/[ '\"]//g")
+          echo "VERSION=${VERSION}" >> $GITHUB_ENV
+      - run: echo "💡 Checking if ${{ env.VERSION }} is the same as ${{ github.event.release.tag_name }}"
+      - name: Compare version
+        if: ${{ env.VERSION != github.event.release.tag_name }}
+        run: |
+          echo "🥵 ${{ env.VERSION }} is not ${{ github.event.release.tag_name }}"
+          exit 1
+      - run: echo "🖥️ The workflow is now ready to publish."
+      - name: Set up PDM
+        uses: pdm-project/setup-pdm@main
+      - run: echo "🎉 PDM has been installed successfully."
+      - run: echo "🖥️ Installing plugin to publish."
+      - name: Install dependencies
+        run: |
+          pdm plugin add pdm-publish
+      - run: echo "🎉 PDM publish plugin installed successfully."
+      - run: echo "🖥️ Publishing to PyPi"
+      - name: Publishing
+        run: |
+          pdm -u __token__ -p ${{ secrets.PYPI_PASSWORD }}
+  document:
+    runs-on: ubuntu-latest
+    needs: publish
+    name: Publish documentation
+    steps:
+      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
+      - run: echo "🐧 This job is now running on a ${{ runner.os }} server!"
+      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
+      - name: Check out repository code
+        uses: actions/checkout@v3
+      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
+      - run: echo "🖥️ The workflow is now ready to check git commit messages."
+      - name: Set up PDM
+        uses: pdm-project/setup-pdm@main
+      - run: echo "🎉 PDM has been installed successfully."
+      - run: echo "🖥️ Installing dependencies to build documentation."
+      - name: Install dependencies
+        run: |
+          pdm sync -d -G document
+      - run: echo "🎉 Documentation dependenies installed successfully."
+      - run: echo "🖥️ building documentation."
+      - name: Build documentation
+        run: |
+          VERSION=v$(awk -F "=" '/__version__/ {print $2}' src/dismantle/__version__.py | sed "s/[ '\"]//g")
+          sed -i '/dynamic = /d' pyproject.toml
+          sed -i '3i version = "${{ env.VERSION }}"' pyproject.toml
+          head pyproject.toml
+          pdm run document
+          mkdir gh-pages
+          touch gh-pages/.nojekyll
+          cp -r docs/build/* gh-pages/
+      - run: echo "🎉 Documentation has been built successfully."
+      - run: echo "🖥️ Deploying documentation to Github Pages."
+      - name: Deploy documentation
+        uses: JamesIves/github-pages-deploy-action@v4.3.3
+        with:
+          branch: gh-pages
+          folder: gh-pages
+      - run: echo "🍏 This linting job's status is ${{ job.status }}."
+  success:
+    if: ${{ always() }}
+    runs-on: ubuntu-latest
+    name: Publish & Document
+    needs: [publish, document]
+    steps:
+      - name: Check publish && document status
+        if: ${{ needs.publish.result != 'success' || needs.document.result != 'success' }}
+        uses: author/action-rollback@master
+        with:
+          release_id: ${{ steps.create_release.id }}
+          tag: ${{ github.event.release.tag_name }}
+          delete_orphan_tag: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Report error
+        if: ${{ needs.publish.result != 'success' || needs.document.result != 'success' }}
+        run: exit 1
