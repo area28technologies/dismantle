@@ -3,9 +3,7 @@ name = "dismantle"
 dynamic = ["version"]
 description = "Python package / plugin / extension manager."
 authors = [{ name = "Area28 Technologies", email = "dev@area28.io" }]
-dependencies = [
-    "requests>=2.27.1",
-]
+dependencies = ["requests>=2.27.1"]
 requires-python = ">=3.7"
 license = { text = "SEE LICENSE IN LICENSE" }
 readme = "README.md"
@@ -116,11 +114,7 @@ pre_coverage = { cmd = "pytest tests -qq --cov=dismantle --cov-report=xml" }
 coverage = { cmd = "coverage report" }
 
 [tool.pdm.dev-dependencies]
-test = [
-    "pytest>=7.1.2",
-    "pytest-cov>=3.0.0",
-    "pytest-httpserver>=1.0.4",
-]
+test = ["pytest>=7.1.2", "pytest-cov>=3.0.0", "pytest-httpserver>=1.0.4"]
 document = [
     "Sphinx>=4.5.0",
     "myst-parser>=0.17.2",

@@ -4,9 +4,9 @@ import pytest
 from py._path.local import LocalPath
 
 from dismantle.package import (
+    DirectoryPackageFormat,
     LocalPackageHandler,
     PackageHandler,
-    DirectoryPackageFormat,
     TarPackageFormat,
     TgzPackageFormat,
     ZipPackageFormat

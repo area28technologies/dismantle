@@ -3,7 +3,7 @@ import logging
 import os
 
 try:
-    from importlib.abc import Loader as imp
+    from importlib.abc import Loader as imp  # noqa: N813
 except ImportError:
     import imp  # NOQA: F401
 
@@ -17,7 +17,7 @@ class Plugins:
     """Search through the installed packages and find plugins."""
 
     def __init__(self, types, packages, prefix):
-        """ """
+        """Initialise plugin system."""
         self._packages = packages
         self._plugins = _plugins
         self._directory = 'plugins'
@@ -33,7 +33,7 @@ class Plugins:
         self._find()
 
     def _find(self):
-        """search through the packages and find all plugins."""
+        """Search through the packages and find all plugins."""
         for x in self._packages.enabled.values():
             _prefix = x['name']
             # check if the package has an init file
@@ -56,27 +56,28 @@ class Plugins:
                         self._imports[prefix] = self._import(full_path, prefix)
 
     def _import(self, path, prefix):
-        """ Import a file or module into our imports list. """
-
+        """Import a file or module into our imports list."""
         # use imp to correctly load the plugin as a module
         if os.path.isdir(path):
-            spec = ("py", "r", imp.PKG_DIRECTORY)
+            spec = ('py', 'r', imp.PKG_DIRECTORY)
             module = imp.load_module(prefix, None, path, spec)
         else:
-            with open(path + ".py", "r") as plugin_file:
-                spec = ("py", "r", imp.PY_SOURCE)
+            with open(path + '.py', 'r') as plugin_file:
+                spec = ('py', 'r', imp.PY_SOURCE)
                 module = imp.load_module(
                     prefix,
                     plugin_file,
-                    path + ".py",
+                    path + '.py',
                     spec
                 )
         return module
 
     @property
     def plugins(self):
+        """Return the list of plugins."""
         return self._plugins
 
     @property
     def imports(self):
+        """Return the list of imported plugins."""
         return self._imports

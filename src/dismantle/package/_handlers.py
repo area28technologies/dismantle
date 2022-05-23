@@ -39,8 +39,7 @@ class PackageHandler(metaclass=abc.ABCMeta):
     @staticmethod
     @abc.abstractmethod
     def grasps(path: any) -> bool:
-        """Return a boolean value describing weither the package source can be
-        processed.
+        """Check if package handler understand a package format.
         """
         ...
 
@@ -64,7 +63,7 @@ class LocalPackageHandler(PackageHandler):
     """Directory package structure."""
 
     def __init__(self, name: str, src: str, formats: Optional[Formats] = None):
-        """initialise the package."""
+        """Initialise the package."""
         self._meta = {}
         self._meta['name'] = name
         self._path = None
@@ -174,7 +173,7 @@ class HttpPackageHandler(PackageHandler):
         formats: Formats = None,
         cache_dir: str = None
     ):
-        """initialise the package."""
+        """Initialise the package."""
         self._meta = {}
         self._meta['name'] = name
         self._path = None
@@ -209,7 +208,7 @@ class HttpPackageHandler(PackageHandler):
         return self.meta['name']
 
     def __getattr__(self, name):
-        """Return an attribute from the meta data if the data doesnt exist."""
+        """Return attrib from meta data if the data doesnt exist."""
         if name not in self._meta:
             message = f'{name} is an invalid attribute'
             raise AttributeError(message)
@@ -222,7 +221,7 @@ class HttpPackageHandler(PackageHandler):
 
     @staticmethod
     def grasps(path: any) -> bool:
-        """Check if a directory on the local filesystem has been provided."""
+        """Check if dir on the local filesystem has been provided."""
         parts = urlparse(str(path))
         if parts.scheme not in ['http', 'https']:
             return False
@@ -241,11 +240,11 @@ class HttpPackageHandler(PackageHandler):
         self._format.extract(self._cache, self._path)
 
     def install(self, path: str, version: str = None) -> bool:
-        """
-        Install the current package to the given path.
-        if there's already a package in path we'll only fetch if the version is different.
-        """
+        """Install the current package to the given path.
 
+        If there's already a package in path we'll only fetch if the
+        version is different.
+        """
         fetch_required = True
         try:
             existing_pkg_metadata = self._load_metadata(Path(path))
@@ -315,8 +314,9 @@ class HttpPackageHandler(PackageHandler):
 
     @property
     def outdated(self) -> bool:
-        """Execute a head request using the requests library to check that the
-        ETag matches.
+        """Execute a head request using the requests library.
+
+        To check that the ETag matches.
         """
         headers = {'If-None-Match': self._digest}
         req = requests.head(self._src, headers=headers, allow_redirects=True)
@@ -333,7 +333,7 @@ class HttpPackageHandler(PackageHandler):
         digest = md5()  # noqa: S303
         if not self._cache.exists():
             return digest.hexdigest()
-        with open(self._cache, "rb") as cached_package:
-            for block in iter(lambda: cached_package.read(65536), b""):
+        with open(self._cache, 'rb') as cached_package:
+            for block in iter(lambda: cached_package.read(65536), b''):
                 digest.update(block)
         return digest.hexdigest()

@@ -60,13 +60,13 @@ def test_length(datadir):
 
 def test_populated_package_exists(datadir):
     index = JsonFileIndexHandler(datadir.join('index_populated.json'))
-    package = index["@scope-one/package-one"]
-    assert package["name"] == "@scope-one/package-one"
-    assert package["version"] == "0.1.0"
-    assert package["path"] == "@scope-one/package-one"
+    package = index['@scope-one/package-one']
+    assert package['name'] == '@scope-one/package-one'
+    assert package['version'] == '0.1.0'
+    assert package['path'] == '@scope-one/package-one'
 
 
 def test_populated_package_nonexistant(datadir):
     index = JsonFileIndexHandler(datadir.join('index_populated.json'))
     with pytest.raises(KeyError):
-        index["@scope-four/package-one"]
+        index['@scope-four/package-one']
