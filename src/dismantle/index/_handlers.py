@@ -11,37 +11,45 @@ import requests
 
 
 class IndexHandler(metaclass=abc.ABCMeta):
+    """Creates a base index handler to be extended."""
 
     @abc.abstractmethod
     def __getitem__(self, index) -> Any:
+        """Add the ability to extend __getitem__."""
         ...
 
     @abc.abstractmethod
     def __len__(self) -> int:
+        """Add the ability to extend __len__."""
         ...
 
     @abc.abstractmethod
     def __iter__(self) -> Iterator:
+        """Add the ability to extend __iter__."""
         ...
 
     @abc.abstractmethod
     def find(self) -> Union[list, None]:
+        """Add interface to index finder."""
         ...
 
     @abc.abstractmethod
     def update(self) -> bool:
+        """Add interface for extendable updater."""
         ...
 
     @property
     @abc.abstractmethod
     def outdated(self) -> bool:
+        """Add interface to check if an index is outdated."""
         ...
 
 
 class JsonFileIndexHandler(IndexHandler):
     """Local file handler."""
+
     def __init__(self, path: str) -> None:
-        """With the given path, process the data and return the results."""
+        """With the given path, process data and return the results."""
         path = str(path)[7:] if str(path)[:7] == 'file://' else str(path)
         self._path = Path(path)
         if not self._path.exists():
@@ -55,7 +63,7 @@ class JsonFileIndexHandler(IndexHandler):
         return self._data.__getitem__(index)
 
     def __len__(self) -> int:
-        """Return the length of the _data list returned from the json file."""
+        """Return length of _data list returned from the json file."""
         return self._data.__len__()
 
     def __iter__(self) -> Iterator:
@@ -67,15 +75,13 @@ class JsonFileIndexHandler(IndexHandler):
         return [s for s in self._data if value.lower() in s.lower()]
 
     def update(self) -> bool:
-        """As the file is referenced directly, there is no need to update the
-        index.
+        """As file is referenced directly, no need to update the index.
         """
         return True
 
     @property
     def outdated(self) -> bool:
-        """As the file is referenced directly, there is no need to check the
-        age.
+        """As file is referenced directly, there is no need to check age.
         """
         return False
 
@@ -143,7 +149,7 @@ class JsonUrlIndexHandler(IndexHandler):
     def _digest(self) -> str:
         """Return the md5 digest of the currently cached index file."""
         digest = md5()  # noqa: S303
-        with open(self._cached_index, "rb") as cached_index:
-            for block in iter(lambda: cached_index.read(65536), b""):
+        with open(self._cached_index, 'rb') as cached_index:
+            for block in iter(lambda: cached_index.read(65536), b''):
                 digest.update(block)
         return digest.hexdigest()

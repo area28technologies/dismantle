@@ -15,7 +15,7 @@ def build_parser():
 
 
 def main(args=None):
-    """Main command line entry point."""
+    """Add entry point for python -m option."""
     args = args if args else sys.argv[1:]
     parser = build_parser()
     app = '%(prog)s version ' + __version__

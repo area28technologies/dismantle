@@ -97,9 +97,9 @@ def test_prefix_generation(datadir: Path) -> None:
     )
 
     assert [
-               '@scope-one/package-one.extension.hello',
-               '@scope-one/package-one.extension.green',
-               '@scope-one/package-one.extension.binpy.foo',
-               '@scope-one/package-one.extension.another',
-               '@scope-one/package-one.extension.lot.of.dot.you'
-           ].sort() == list(xpac._imports.keys()).sort()
+        '@scope-one/package-one.extension.hello',
+        '@scope-one/package-one.extension.green',
+        '@scope-one/package-one.extension.binpy.foo',
+        '@scope-one/package-one.extension.another',
+        '@scope-one/package-one.extension.lot.of.dot.you'
+    ].sort() == list(xpac._imports.keys()).sort()

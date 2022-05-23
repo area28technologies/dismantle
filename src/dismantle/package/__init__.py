@@ -1,3 +1,4 @@
+"""Creates a solution to handle multiple package formats."""
 from dismantle.package._formats import (
     DirectoryPackageFormat,
     PackageFormat,

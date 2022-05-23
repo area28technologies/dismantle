@@ -4,7 +4,7 @@ from pathlib import Path
 import pytest
 
 
-@pytest.fixture(scope='function')
+@pytest.fixture()
 def datadir(tmpdir, request):
     """Fixture responsible for searching a folder with the same name of test
     module and, if available, moving all contents to a temporary directory so
@@ -20,7 +20,7 @@ def datadir(tmpdir, request):
     return tmpdir
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope='session')
 def httpserver_listen_address():
     """Use port 9090 for testing."""
-    return ("127.0.0.1", 9090)
+    return ('127.0.0.1', 9090)

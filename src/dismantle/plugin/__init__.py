@@ -1,4 +1,4 @@
-"""Dismantle package manager system with support for extensions and plugins."""
+"""Plugin management."""
 from .iplugin import IPlugin
 from .plugin import plugin
 from .plugins import Plugins
@@ -15,5 +15,5 @@ __all__ = [
 ]
 
 # IDEAS: --- plugins ----------------------------
-# IDEAS: Function hook to provide plugin (process content before / after)
+# IDEAS: Func hook to provide plugin (process content before / after)
 # IDEAS: List plugins for a function

@@ -7,13 +7,12 @@ from typing import Union
 
 
 class PackageFormat(metaclass=abc.ABCMeta):
+    """Base class for packet formats."""
 
     @staticmethod
     @abc.abstractmethod
     def grasps(path: any) -> bool:
-        """Return a boolean value describing whether the Format can be
-        processed.
-        """
+        """Check if format can be processed."""
         ...
 
     @staticmethod
@@ -30,10 +29,11 @@ class PackageFormat(metaclass=abc.ABCMeta):
 
 
 class DirectoryPackageFormat(PackageFormat):
+    """A package format using a directory to hold files."""
 
     @staticmethod
     def grasps(path: any) -> bool:
-        """Check if a directory on the local filesystem has been provided."""
+        """Check if dir on the local filesystem has been provided."""
         path = str(path)[7:] if str(path)[:7] == 'file://' else path
         try:
             return Path(str(path)).is_dir()
@@ -58,10 +58,11 @@ class DirectoryPackageFormat(PackageFormat):
 
 
 class ZipPackageFormat(PackageFormat):
+    """A package format compressed as a zip file."""
 
     @staticmethod
     def grasps(path: any) -> bool:
-        """Check if a directory on the local filesystem has been provided."""
+        """Check if dir on the local filesystem has been provided."""
         path = str(path)[7:] if str(path)[:7] == 'file://' else path
         zip_path = Path(path)
         if zip_path.suffix != '.zip':
@@ -86,10 +87,11 @@ class ZipPackageFormat(PackageFormat):
 
 
 class TarPackageFormat(PackageFormat):
+    """A package format using a compressed tar file."""
 
     @staticmethod
     def grasps(path: any) -> bool:
-        """Check if a directory on the local filesystem has been provided."""
+        """Check if dir on the local filesystem has been provided."""
         path = str(path)[7:] if str(path)[:7] == 'file://' else path
         tar_path = Path(path)
         suffixes = ''.join(tar_path.suffixes)
@@ -115,10 +117,11 @@ class TarPackageFormat(PackageFormat):
 
 
 class TgzPackageFormat(PackageFormat):
+    """A package format using a tgz file compression."""
 
     @staticmethod
     def grasps(path: any) -> bool:
-        """Check if a directory on the local filesystem has been provided."""
+        """Check if dir on the local filesystem has been provided."""
         path = str(path)[7:] if str(path)[:7] == 'file://' else path
         tgz = Path(path)
         suffixes = ''.join(tgz.suffixes)
