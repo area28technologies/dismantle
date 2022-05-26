@@ -75,12 +75,12 @@ class JsonFileIndexHandler(IndexHandler):
         return [s for s in self._data if value.lower() in s.lower()]
 
     def update(self) -> bool:
-        """Returns true as update not needed for a json file."""
+        """Update the index file."""
         return True
 
     @property
     def outdated(self) -> bool:
-        """Returns false as json file referenced directly."""
+        """Check if the index is outdated."""
         return False
 
 
@@ -119,7 +119,7 @@ class JsonUrlIndexHandler(IndexHandler):
         return [s for s in self._data if value.lower() in s.lower()]
 
     def update(self) -> bool:
-        """Using the requests module, download the latest index."""
+        """Update the index file if its outdated."""
         self._updated = False
         headers = {'If-None-Match': self._digest}
         req = requests.get(self._index, headers=headers, allow_redirects=True)

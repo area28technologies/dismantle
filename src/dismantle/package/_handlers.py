@@ -24,7 +24,7 @@ class PackageHandler(metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
     def __getattr__(self, name) -> object:
-        """Allows the __getattr__ method to be extended."""
+        """Allow the __getattr__ method to be extended."""
         ...
 
     @property
