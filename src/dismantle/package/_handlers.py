@@ -24,6 +24,7 @@ class PackageHandler(metaclass=abc.ABCMeta):
 
     @abc.abstractmethod
     def __getattr__(self, name) -> object:
+        """Allows the __getattr__ method to be extended."""
         ...
 
     @property
@@ -39,8 +40,7 @@ class PackageHandler(metaclass=abc.ABCMeta):
     @staticmethod
     @abc.abstractmethod
     def grasps(path: any) -> bool:
-        """Check if package handler understand a package format.
-        """
+        """Check if package handler understand a package format."""
         ...
 
     @abc.abstractmethod
@@ -108,8 +108,10 @@ class LocalPackageHandler(PackageHandler):
         return Path(str(path)).exists()
 
     def install(self, path: str = None, version: str = None) -> bool:
-        """The local package handler does not install the package. No version
-        control exists for the directory package type.
+        """Install a package.
+
+        The local package handler does not install the package. No
+        version control exists for the directory package type.
         """
         path = str(path)[7:] if str(path)[:7] == 'file://' else path
         self._path = path if path else self._src

@@ -6,9 +6,11 @@ import pytest
 
 @pytest.fixture()
 def datadir(tmpdir, request):
-    """Fixture responsible for searching a folder with the same name of test
-    module and, if available, moving all contents to a temporary directory so
-    tests can use them freely.
+    """Provide a data directory for unit tests.
+
+    Fixture responsible for searching a folder with the same name of
+    test module and, if available, moving all contents to a temporary
+    directory so tests can use them freely.
     """
     filename = Path(request.module.__file__)
     test_dir = Path(filename.parent, 'data', filename.stem)
