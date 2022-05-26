@@ -75,19 +75,18 @@ class JsonFileIndexHandler(IndexHandler):
         return [s for s in self._data if value.lower() in s.lower()]
 
     def update(self) -> bool:
-        """As file is referenced directly, no need to update the index.
-        """
+        """Returns true as update not needed for a json file."""
         return True
 
     @property
     def outdated(self) -> bool:
-        """As file is referenced directly, there is no need to check age.
-        """
+        """Returns false as json file referenced directly."""
         return False
 
 
 class JsonUrlIndexHandler(IndexHandler):
     """Use a json file located on a remote server."""
+
     def __init__(self, index: str, cache_dir: str = None) -> None:
         """With given path, process the data and return the results."""
         self._index = index
@@ -133,8 +132,10 @@ class JsonUrlIndexHandler(IndexHandler):
 
     @property
     def outdated(self) -> bool:
-        """Execute a head request using the requests library to check
-        that the ETag matches.
+        """Check if an index is outdated.
+
+        Execute a head request using the requests library to check that
+        the ETag matches.
         """
         headers = {'If-None-Match': self._digest}
         req = requests.head(self._index, headers=headers, allow_redirects=True)
