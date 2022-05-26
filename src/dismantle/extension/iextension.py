@@ -1,4 +1,6 @@
 """Creates an interface to allow all other extensions to extend."""
+
+
 class IExtension:
     """Extension interface to recognise what needs to be processed."""
 
