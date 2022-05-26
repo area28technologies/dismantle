@@ -58,7 +58,7 @@ jobs:
       - run: echo "🖥️ Running linting."
       - name: Run linting
         run: |
-          pdm run lint --ignore=S101,PT012,B020,C901,D100,D101,D102,D103
+          pdm run lint --ignore=S101,PT012,B020,C901,D100,D101,D102,D103,S324
       - run: echo "🍏 This linting job's status is ${{ job.status }}."
   test:
     runs-on: ${{ matrix.os }}
