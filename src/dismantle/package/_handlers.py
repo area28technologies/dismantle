@@ -90,7 +90,10 @@ class LocalPackageHandler(PackageHandler):
         return self._path
 
     def __getattr__(self, name):
-        """Return an attribute from the meta data if the data doesnt exist."""
+        """Return metadata.
+
+        Return an attribute from the meta data if the data doesnt exist.
+        """
         if name not in self._meta:
             message = f'{name} is an invalid attribute'
             raise AttributeError(message)
@@ -103,7 +106,10 @@ class LocalPackageHandler(PackageHandler):
 
     @staticmethod
     def grasps(path: any) -> bool:
-        """Check if a directory on the local filesystem has been provided."""
+        """Check if the package format can process.
+
+        Check if a directory on the local filesystem has been provided.
+        """
         path = str(path)[7:] if str(path)[:7] == 'file://' else path
         return Path(str(path)).exists()
 

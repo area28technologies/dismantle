@@ -66,7 +66,10 @@ def test_notfound(httpserver: HTTPServer, datadir) -> None:
         package.install(dest)
 
 
-def test_install_dir_exists(httpserver: HTTPServer, datadir: LocalPath) -> None:
+def test_install_dir_exists(
+    httpserver: HTTPServer,
+    datadir: LocalPath
+) -> None:
     name = '@scope-one/package-one'
     src = httpserver.url_for('/package.zip')
     dest = 'directory_exists'
@@ -93,7 +96,10 @@ def test_install_create(httpserver: HTTPServer, datadir: LocalPath) -> None:
     assert os.path.exists(package._cache)
 
 
-def test_meta_value_nonexistant(httpserver: HTTPServer, datadir: LocalPath) -> None:
+def test_meta_value_nonexistant(
+    httpserver: HTTPServer,
+    datadir: LocalPath
+) -> None:
     name = '@scope-one/package-one'
     src = httpserver.url_for('/package.zip')
     dest = datadir.join('package-create')
