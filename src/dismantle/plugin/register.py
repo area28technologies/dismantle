@@ -10,12 +10,10 @@ log = logging.getLogger(__name__).addHandler(NullHandler())
 
 def register(name=None):
     """Register a function to add plugins to."""
-    log.debug(f'register: {name}')
     if not name:
         raise ValueError
 
-    def decorator(_func=None):
-        log.debug(f'register.decorator: {_func}')
+    def decorator(_func: functools._AnyCallable):
         _plugins[name] = {'original': _func}
         _plugins[name]['plugins'] = []
 
