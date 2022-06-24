@@ -6,7 +6,7 @@ import tempfile
 from hashlib import md5
 from json.decoder import JSONDecodeError
 from pathlib import Path
-from typing import List, Optional
+from typing import List, Optional, Union
 from urllib.parse import urlparse
 
 import requests
@@ -39,12 +39,16 @@ class PackageHandler(metaclass=abc.ABCMeta):
 
     @staticmethod
     @abc.abstractmethod
-    def grasps(path: any) -> bool:
+    def grasps(path: Union[str, Path]) -> bool:
         """Check if package handler understand a package format."""
         ...
 
     @abc.abstractmethod
-    def install(self, path: str, version: str = None) -> bool:
+    def install(
+        self,
+        path: Union[str, Path],
+        version: Optional[str] = None
+    ) -> bool:
         """Install a specific package version."""
         ...
 
@@ -62,7 +66,12 @@ class PackageHandler(metaclass=abc.ABCMeta):
 class LocalPackageHandler(PackageHandler):
     """Directory package structure."""
 
-    def __init__(self, name: str, src: str, formats: Optional[Formats] = None):
+    def __init__(
+        self,
+        name: str,
+        src: Union[str, Path],
+        formats: Optional[Formats] = None
+    ) -> None:
         """Initialise the package."""
         self._meta = {}
         self._meta['name'] = name
@@ -87,7 +96,7 @@ class LocalPackageHandler(PackageHandler):
     @property
     def path(self) -> str:
         """Return the path the package is installed into."""
-        return self._path
+        return str(self._path)
 
     def __getattr__(self, name):
         """Return metadata.
@@ -105,15 +114,22 @@ class LocalPackageHandler(PackageHandler):
         return self._installed
 
     @staticmethod
-    def grasps(path: any) -> bool:
+    def grasps(path: Union[str, Path]) -> bool:
         """Check if the package format can process.
 
         Check if a directory on the local filesystem has been provided.
         """
         path = str(path)[7:] if str(path)[:7] == 'file://' else path
-        return Path(str(path)).exists()
+        try:
+            return Path(str(path)).exists()
+        except OSError:
+            return False
 
-    def install(self, path: str = None, version: str = None) -> bool:
+    def install(
+        self,
+        path: Optional[str] = None,
+        version: Optional[str] = None
+    ) -> bool:
         """Install a package.
 
         The local package handler does not install the package. No
@@ -129,19 +145,19 @@ class LocalPackageHandler(PackageHandler):
     def uninstall(self) -> bool:
         """Uninstall the package."""
         if self._path != self._src:
-            self._remove_files(self._path)
+            self._remove_files(Path(self._path or ''))
         self._path = None
         self._installed = False
         return True
 
-    def verify(self, digest: str = None) -> bool:
+    def verify(self, digest: Optional[str] = None) -> bool:
         """Verify the package hasn't been tampered with."""
         if digest is None:
             return True
         message = 'the local package handler does not support verification'
         raise ValueError(message)
 
-    def _load_metadata(self, path: Path):
+    def _load_metadata(self, path: Union[str, Path]):
         """Load the package.json file into memory."""
         path = Path(str(path)[7:] if str(path)[:7] == 'file://' else path)
         try:
@@ -162,7 +178,7 @@ class LocalPackageHandler(PackageHandler):
             raise ValueError(message)
 
     @staticmethod
-    def _remove_files(path: Path) -> None:
+    def _remove_files(path: Union[str, Path]) -> None:
         """Recursively remove the path and all its sub items."""
         path = str(path)[7:] if str(path)[:7] == 'file://' else path
         try:
@@ -177,9 +193,9 @@ class HttpPackageHandler(PackageHandler):
     def __init__(
         self,
         name: str,
-        src: str,
+        src: Union[str, Path],
         formats: Formats = None,
-        cache_dir: str = None
+        cache_dir: Optional[Union[str, Path]] = None
     ):
         """Initialise the package."""
         self._meta = {}
@@ -188,13 +204,15 @@ class HttpPackageHandler(PackageHandler):
         self._installed = False
         self._updated = False
         self._src = src
+        cache_dir = Path(cache_dir or '')
+
         if not cache_dir:
             tmp_cache = tempfile.TemporaryDirectory()
             cache_dir = Path(tmp_cache.name)
             atexit.register(tmp_cache.cleanup)
         else:
             cache_dir.mkdir(0x777, True, True)
-        parts = urlparse(src)
+        parts = urlparse(str(src))
         ext = ''.join(Path(parts.path).suffixes)
         self._cache = Path(cache_dir / Path(name + ext))
         if not HttpPackageHandler.grasps(src):
@@ -228,7 +246,7 @@ class HttpPackageHandler(PackageHandler):
         return self._installed
 
     @staticmethod
-    def grasps(path: any) -> bool:
+    def grasps(path: Union[str, Path]) -> bool:
         """Check if dir on the local filesystem has been provided."""
         parts = urlparse(str(path))
         if parts.scheme not in ['http', 'https']:
@@ -237,7 +255,11 @@ class HttpPackageHandler(PackageHandler):
 
     def _fetch_and_extract(self):
         headers = {'If-None-Match': self._digest}
-        req = requests.get(self._src, headers=headers, allow_redirects=True)
+        req = requests.get(
+            str(self._src),
+            headers=headers,
+            allow_redirects=True
+        )
         if req.status_code not in [200, 304]:
             raise FileNotFoundError(req.status_code)
         elif req.status_code == 200:
@@ -245,9 +267,9 @@ class HttpPackageHandler(PackageHandler):
             with open(self._cache, 'wb') as cached_package:
                 cached_package.write(req.content)
             self._updated = True
-        self._format.extract(self._cache, self._path)
+        self._format.extract(self._cache, self._path or '')
 
-    def install(self, path: str, version: str = None) -> bool:
+    def install(self, path: str, version: Optional[str] = None) -> bool:
         """Install the current package to the given path.
 
         If there's already a package in path we'll only fetch if the
@@ -281,12 +303,12 @@ class HttpPackageHandler(PackageHandler):
     def uninstall(self) -> bool:
         """Uninstall the package."""
         if self._path != self._src:
-            self._remove_files(self._path)
+            self._remove_files(Path(self._path or ''))
         self._path = None
         self._installed = False
         return True
 
-    def verify(self, digest: str = None) -> bool:
+    def verify(self, digest: Optional[str] = None) -> bool:
         """Verify the package hasn't been tampered with."""
         if digest is None:
             return True
@@ -327,12 +349,17 @@ class HttpPackageHandler(PackageHandler):
         To check that the ETag matches.
         """
         headers = {'If-None-Match': self._digest}
-        req = requests.head(self._src, headers=headers, allow_redirects=True)
+        req = requests.head(
+            str(self._src or ''),
+            headers=headers,
+            allow_redirects=True
+        )
+
         if req.status_code not in [200, 304]:
             raise FileNotFoundError(req.status_code)
         elif req.status_code == 200:
             return True
-        elif req.status_code == 304:
+        else:
             return False
 
     @property

@@ -11,7 +11,7 @@ class PackageFormat(metaclass=abc.ABCMeta):
 
     @staticmethod
     @abc.abstractmethod
-    def grasps(path: any) -> bool:
+    def grasps(path: Union[str, Path]) -> bool:
         """Check if format can be processed."""
         ...
 
@@ -23,7 +23,7 @@ class PackageFormat(metaclass=abc.ABCMeta):
 
     @staticmethod
     @abc.abstractmethod
-    def extract(src: any, dest: str) -> bool:
+    def extract(src: Union[str, Path], dest: Union[str, Path]) -> bool:
         """Verify a packages hash with the provided signature."""
         ...
 
@@ -32,7 +32,7 @@ class DirectoryPackageFormat(PackageFormat):
     """A package format using a directory to hold files."""
 
     @staticmethod
-    def grasps(path: any) -> bool:
+    def grasps(path: Union[str, Path]) -> bool:
         """Check if dir on the local filesystem has been provided."""
         path = str(path)[7:] if str(path)[:7] == 'file://' else path
         try:
@@ -41,7 +41,7 @@ class DirectoryPackageFormat(PackageFormat):
             return False
 
     @staticmethod
-    def extract(src: any, dest: str):
+    def extract(src: Union[str, Path], dest: Union[str, Path]) -> None:
         """Use the formatter to process any movement related actions."""
         src = str(src)[7:] if str(src)[:7] == 'file://' else src
         dest = str(dest)[7:] if str(dest)[:7] == 'file://' else dest
@@ -61,7 +61,7 @@ class ZipPackageFormat(PackageFormat):
     """A package format compressed as a zip file."""
 
     @staticmethod
-    def grasps(path: any) -> bool:
+    def grasps(path: Union[str, Path]) -> bool:
         """Check if dir on the local filesystem has been provided."""
         path = str(path)[7:] if str(path)[:7] == 'file://' else path
         zip_path = Path(path)
@@ -70,18 +70,19 @@ class ZipPackageFormat(PackageFormat):
         return True
 
     @staticmethod
-    def extract(src: Union[str, Path], dest: str):
+    def extract(src: Union[str, Path], dest: Union[str, Path]) -> None:
         """Extract the zipfile to the cache location."""
         src = str(src)[7:] if str(src)[:7] == 'file://' else src
         dest = str(dest)[7:] if str(dest)[:7] == 'file://' else dest
         src = Path(src)
+        dest_path = Path(dest)
+
         if not ZipPackageFormat.grasps(src):
             message = 'formatter only supports zip files'
             raise ValueError(message)
         if not src.is_file() or not zipfile.is_zipfile(src):
             message = 'invalid zip file'
             raise ValueError(message)
-        dest_path = Path(dest)
         with zipfile.ZipFile(src, 'r') as zip_ref:
             zip_ref.extractall(dest_path)
 
@@ -90,7 +91,7 @@ class TarPackageFormat(PackageFormat):
     """A package format using a compressed tar file."""
 
     @staticmethod
-    def grasps(path: any) -> bool:
+    def grasps(path: Union[str, Path]) -> bool:
         """Check if dir on the local filesystem has been provided."""
         path = str(path)[7:] if str(path)[:7] == 'file://' else path
         tar_path = Path(path)
@@ -100,19 +101,20 @@ class TarPackageFormat(PackageFormat):
         return True
 
     @staticmethod
-    def extract(src: str, dest: str):
+    def extract(src: Union[str, Path], dest: Union[str, Path]) -> None:
         """Extract the tarfile to the cache location."""
         src = str(src)[7:] if str(src)[:7] == 'file://' else src
         dest = str(dest)[7:] if str(dest)[:7] == 'file://' else dest
-        src = Path(src)
-        if not TarPackageFormat.grasps(src):
+        src_path = Path(src)
+        dest_path = Path(dest)
+
+        if not TarPackageFormat.grasps(src_path):
             message = 'formatter only supports tar files'
             raise ValueError(message)
-        if not src.is_file() or not tarfile.is_tarfile(src):
+        if not src_path.is_file() or not tarfile.is_tarfile(src_path):
             message = 'invalid tar file'
             raise ValueError(message)
-        dest_path = Path(dest)
-        with tarfile.open(src, 'r') as tar_ref:
+        with tarfile.open(src_path, 'r') as tar_ref:
             tar_ref.extractall(dest_path)
 
 
@@ -120,27 +122,28 @@ class TgzPackageFormat(PackageFormat):
     """A package format using a tgz file compression."""
 
     @staticmethod
-    def grasps(path: any) -> bool:
+    def grasps(path: Union[str, Path]) -> bool:
         """Check if dir on the local filesystem has been provided."""
         path = str(path)[7:] if str(path)[:7] == 'file://' else path
-        tgz = Path(path)
-        suffixes = ''.join(tgz.suffixes)
+        src_path = Path(path)
+        suffixes = ''.join(src_path.suffixes)
         if suffixes not in ['.tgz', '.tar.gz']:
             return False
         return True
 
     @staticmethod
-    def extract(src: str, dest: str):
+    def extract(src: Union[str, Path], dest: Union[str, Path]) -> None:
         """Extract the tarfile to the cache location."""
         src = str(src)[7:] if str(src)[:7] == 'file://' else src
         dest = str(dest)[7:] if str(dest)[:7] == 'file://' else dest
-        src = Path(src)
-        if not TgzPackageFormat.grasps(src):
+        src_path = Path(src)
+        dest_path = Path(dest)
+
+        if not TgzPackageFormat.grasps(src_path):
             message = 'formatter only supports tar.gz files'
             raise ValueError(message)
-        if not src.is_file() or not tarfile.is_tarfile(src):
+        if not src_path.is_file() or not tarfile.is_tarfile(src_path):
             message = 'invalid tgz file'
             raise ValueError(message)
-        dest_path = Path(dest)
-        with tarfile.open(src, 'r') as tgz_ref:
+        with tarfile.open(src_path, 'r') as tgz_ref:
             tgz_ref.extractall(dest_path)
