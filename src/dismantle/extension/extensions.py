@@ -20,6 +20,7 @@ class Extensions:
         self._imports = {}
         self._exclude = (['__pycache__', '.git'])
         self._include = ('.py', '.cpython-37.pyc')
+
         # check that the types are a subclass of IExtension
         if not all([issubclass(i, IExtension) for i in types]):
             raise ValueError('all exntesion types must extend IExtension')
