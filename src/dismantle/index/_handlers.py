@@ -5,13 +5,18 @@ import json
 import tempfile
 from hashlib import md5
 from pathlib import Path
-from typing import Any, Iterator, Union
+from typing import Any, Dict, Iterator, Optional, Union
 
 import requests
 
 
 class IndexHandler(metaclass=abc.ABCMeta):
     """Creates a base index handler to be extended."""
+
+    @abc.abstractmethod
+    def __init__(self, path: str, cache_dir: Optional[str] = None) -> None:
+        """Ensure a string path is provided."""
+        ...
 
     @abc.abstractmethod
     def __getitem__(self, index) -> Any:
@@ -29,6 +34,11 @@ class IndexHandler(metaclass=abc.ABCMeta):
         ...
 
     @abc.abstractmethod
+    def packages(self) -> Dict:
+        """Add the ability to extend __getitem__."""
+        ...
+
+    @abc.abstractmethod
     def find(self) -> Union[list, None]:
         """Add interface to index finder."""
         ...
@@ -36,6 +46,12 @@ class IndexHandler(metaclass=abc.ABCMeta):
     @abc.abstractmethod
     def update(self) -> bool:
         """Add interface for extendable updater."""
+        ...
+
+    @staticmethod
+    @abc.abstractmethod
+    def handles(index: Union[str, Path]) -> bool:
+        """Add interface for checking if a handler can handle index."""
         ...
 
     @property
@@ -48,7 +64,7 @@ class IndexHandler(metaclass=abc.ABCMeta):
 class JsonFileIndexHandler(IndexHandler):
     """Local file handler."""
 
-    def __init__(self, path: str) -> None:
+    def __init__(self, path: str, cache_dir: Optional[str] = None) -> None:
         """With the given path, process data and return the results."""
         path = str(path)[7:] if str(path)[:7] == 'file://' else str(path)
         self._path = Path(path)
@@ -58,7 +74,7 @@ class JsonFileIndexHandler(IndexHandler):
         with open(self._path) as json_file:
             self._data = json.load(json_file)
 
-    def __getitem__(self, index) -> any:
+    def __getitem__(self, index) -> Any:
         """Get an item from the _data list read from the json file."""
         return self._data.__getitem__(index)
 
@@ -70,6 +86,10 @@ class JsonFileIndexHandler(IndexHandler):
         """Return the list of packages contained within the index."""
         return iter(self._data)
 
+    def packages(self) -> Dict:
+        """Return the list of packages defined."""
+        return self._data
+
     def find(self, value: str) -> Union[list, None]:
         """Find packages matching a specified value."""
         return [s for s in self._data if value.lower() in s.lower()]
@@ -77,6 +97,15 @@ class JsonFileIndexHandler(IndexHandler):
     def update(self) -> bool:
         """Update the index file."""
         return True
+
+    @staticmethod
+    def handles(index: Union[str, Path]) -> bool:
+        """Check if the index format is file:// or a path."""
+        path = str(index)[7:] if str(index)[:7] == 'file://' else index
+        try:
+            return Path(str(path)).exists()
+        except OSError:
+            return False
 
     @property
     def outdated(self) -> bool:
@@ -87,12 +116,13 @@ class JsonFileIndexHandler(IndexHandler):
 class JsonUrlIndexHandler(IndexHandler):
     """Use a json file located on a remote server."""
 
-    def __init__(self, index: str, cache_dir: str = None) -> None:
+    def __init__(self, index: str, cache_dir: Optional[str] = None) -> None:
         """With given path, process the data and return the results."""
         self._index = index
         if not cache_dir:
-            cache_dir = tempfile.TemporaryDirectory()
-            atexit.register(cache_dir.cleanup)
+            tmp_cache_dir = tempfile.TemporaryDirectory()
+            atexit.register(tmp_cache_dir.cleanup)
+            cache_dir = str(tmp_cache_dir)
         self._cache = Path(cache_dir)
         self._cache.mkdir(0x777, True, True)
         self._cached_index = Path(self._cache, 'index.json')
@@ -114,11 +144,15 @@ class JsonUrlIndexHandler(IndexHandler):
         """Return the list of packages contained within the index."""
         return iter(self._data)
 
+    def packages(self) -> Dict:
+        """Return the list of packages defined."""
+        return self._data
+
     def find(self, value: str) -> Union[list, None]:
         """Find packages matching a specified value."""
         return [s for s in self._data if value.lower() in s.lower()]
 
-    def update(self) -> bool:
+    def update(self) -> None:
         """Update the index file if its outdated."""
         self._updated = False
         headers = {'If-None-Match': self._digest}
@@ -129,6 +163,11 @@ class JsonUrlIndexHandler(IndexHandler):
             with open(self._cached_index, 'wb') as cached_index:
                 cached_index.write(req.content)
             self._updated = True
+
+    @staticmethod
+    def handles(index: Union[str, Path]) -> bool:
+        """Check if the index format is file:// or a path."""
+        return str(index)[0:4] == 'http'
 
     @property
     def outdated(self) -> bool:
@@ -143,7 +182,7 @@ class JsonUrlIndexHandler(IndexHandler):
             raise FileNotFoundError(req.status_code)
         elif req.status_code == 200:
             return True
-        elif req.status_code == 304:
+        else:
             return False
 
     @property
