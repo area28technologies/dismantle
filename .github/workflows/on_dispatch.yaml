@@ -38,7 +38,6 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
       - run: echo "🖥️ Generating tag ${{ inputs.tag }}."
-      - run: echo "${{ github.actor }}"
       - uses: rickstaa/action-create-tag@v1
         with:
           tag: ${{ inputs.tag }}
@@ -60,8 +59,10 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
       - run: echo "🖥️ The workflow is now ready to build changelog."
+
       - id: build-changelog
         name: Build changelog
         uses: Requarks/changelog-action@v1
@@ -71,12 +72,14 @@ jobs:
           excludeTypes:
       - run: echo "🎉 The changelog was built successfully."
       - run: echo "🖥️ The workflow is now ready to commit the changelog."
+      - run: echo "${{ github.actor }}"
       - name: Commit CHANGELOG.md
         uses: stefanzweifel/git-auto-commit-action@v4
         with:
           branch: main
           commit_message: 'docs: update CHANGELOG.md for ${{ inputs.tag }} [skip ci]'
           file_pattern: CHANGELOG.md
+          push_options: '--force'
   document:
     runs-on: ubuntu-latest
     needs: [validate, create-tag, changelog]
@@ -87,6 +90,8 @@ jobs:
       - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
       - name: Check out repository code
         uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
       - run: echo "🖥️ The workflow is now ready to check git commit messages."
       - name: Set up PDM
