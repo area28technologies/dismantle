@@ -1,0 +1,786 @@
+<!doctype html>
+<html class="no-js" lang="en">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><link rel="index" title="Index" href="#" /><link rel="search" title="Search" href="search.html" />
+
+    <meta name="generator" content="sphinx-4.5.0, furo 2022.04.07"/><title>Index - dismantle documentation</title>
+<link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?digest=68f4518137b9aefe99b631505a2064c3c42c9852" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?digest=30d1aed668e5c3a91c3e3bf6a60b675221979f0e" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #f8f8f8;
+  --color-code-foreground: black;
+  --color-brand-primary: #1F1B53;
+  --color-brand-content: #1F1B53;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+<div class="announcement">
+  <aside class="announcement-content">
+     <em>RELEASE</em> version v1.0.0 released! 
+  </aside>
+</div>
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">dismantle  documentation</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  <div class="sidebar-logo-container">
+    <img class="sidebar-logo only-light" src="_static/assets/logo-light.svg" alt="Light Logo"/>
+    <img class="sidebar-logo only-dark" src="_static/assets/logo-dark.svg" alt="Dark Logo"/>
+  </div>
+  
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder=Search name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <p class="caption" role="heading"><span class="caption-text">Documentation</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="command.html">dismantle Commands</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="dismantle.html">API Reference</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2"><a class="reference internal" href="dismantle.extension.html">dismantle.extension package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dismantle.index.html">dismantle.index package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dismantle.package.html">dismantle.package package</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dismantle.plugin.html">dismantle.plugin package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to Dismantle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html#code-flow">Code flow</a></li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container"><div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          
+<section class="genindex-section">
+  <h1 id="index">Index</h1>
+  <div class="genindex-jumpbox"><a href="#A"><strong>A</strong></a> | <a href="#B"><strong>B</strong></a> | <a href="#C"><strong>C</strong></a> | <a href="#D"><strong>D</strong></a> | <a href="#E"><strong>E</strong></a> | <a href="#F"><strong>F</strong></a> | <a href="#G"><strong>G</strong></a> | <a href="#H"><strong>H</strong></a> | <a href="#I"><strong>I</strong></a> | <a href="#J"><strong>J</strong></a> | <a href="#L"><strong>L</strong></a> | <a href="#M"><strong>M</strong></a> | <a href="#N"><strong>N</strong></a> | <a href="#O"><strong>O</strong></a> | <a href="#P"><strong>P</strong></a> | <a href="#R"><strong>R</strong></a> | <a href="#T"><strong>T</strong></a> | <a href="#U"><strong>U</strong></a> | <a href="#V"><strong>V</strong></a> | <a href="#Z"><strong>Z</strong></a></div>
+</section>
+<section id="A" class="genindex-section">
+  <h2>A</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="dismantle.extension.html#dismantle.extension.IExtension.activate">activate() (dismantle.extension.IExtension method)</a>
+
+        <ul>
+          <li><a href="dismantle.extension.html#dismantle.extension.iextension.IExtension.activate">(dismantle.extension.iextension.IExtension method)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="dismantle.extension.html#dismantle.extension.IExtension.active">active (dismantle.extension.IExtension property)</a>
+
+        <ul>
+          <li><a href="dismantle.extension.html#dismantle.extension.iextension.IExtension.active">(dismantle.extension.iextension.IExtension property)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="B" class="genindex-section">
+  <h2>B</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="dismantle.html#dismantle.cli.build_parser">build_parser() (in module dismantle.cli)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="C" class="genindex-section">
+  <h2>C</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="dismantle.extension.html#dismantle.extension.IExtension.category">category (dismantle.extension.IExtension property)</a>
+
+        <ul>
+          <li><a href="dismantle.extension.html#dismantle.extension.iextension.IExtension.category">(dismantle.extension.iextension.IExtension property)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="dismantle.extension.html#dismantle.extension.Extensions.category">category() (dismantle.extension.Extensions method)</a>
+
+        <ul>
+          <li><a href="dismantle.extension.html#dismantle.extension.extensions.Extensions.category">(dismantle.extension.extensions.Extensions method)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="D" class="genindex-section">
+  <h2>D</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="dismantle.extension.html#dismantle.extension.IExtension.deactivate">deactivate() (dismantle.extension.IExtension method)</a>
+
+        <ul>
+          <li><a href="dismantle.extension.html#dismantle.extension.iextension.IExtension.deactivate">(dismantle.extension.iextension.IExtension method)</a>
+</li>
+        </ul></li>
+        <li><a href="dismantle.package.html#dismantle.package.DirectoryPackageFormat">DirectoryPackageFormat (class in dismantle.package)</a>
+</li>
+        <li>
+    dismantle
+
+        <ul>
+          <li><a href="dismantle.html#module-dismantle">module</a>
+</li>
+        </ul></li>
+        <li>
+    dismantle.cli
+
+        <ul>
+          <li><a href="dismantle.html#module-dismantle.cli">module</a>
+</li>
+        </ul></li>
+        <li>
+    dismantle.extension
+
+        <ul>
+          <li><a href="dismantle.extension.html#module-dismantle.extension">module</a>
+</li>
+        </ul></li>
+        <li>
+    dismantle.extension.extensions
+
+        <ul>
+          <li><a href="dismantle.extension.html#module-dismantle.extension.extensions">module</a>
+</li>
+        </ul></li>
+        <li>
+    dismantle.extension.iextension
+
+        <ul>
+          <li><a href="dismantle.extension.html#module-dismantle.extension.iextension">module</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li>
+    dismantle.index
+
+        <ul>
+          <li><a href="dismantle.index.html#module-dismantle.index">module</a>
+</li>
+        </ul></li>
+        <li>
+    dismantle.package
+
+        <ul>
+          <li><a href="dismantle.package.html#module-dismantle.package">module</a>
+</li>
+        </ul></li>
+        <li>
+    dismantle.plugin
+
+        <ul>
+          <li><a href="dismantle.plugin.html#module-dismantle.plugin">module</a>
+</li>
+        </ul></li>
+        <li>
+    dismantle.plugin.iplugin
+
+        <ul>
+          <li><a href="dismantle.plugin.html#module-dismantle.plugin.iplugin">module</a>
+</li>
+        </ul></li>
+        <li>
+    dismantle.plugin.plugin
+
+        <ul>
+          <li><a href="dismantle.plugin.html#module-dismantle.plugin.plugin">module</a>
+</li>
+        </ul></li>
+        <li>
+    dismantle.plugin.plugins
+
+        <ul>
+          <li><a href="dismantle.plugin.html#module-dismantle.plugin.plugins">module</a>
+</li>
+        </ul></li>
+        <li>
+    dismantle.plugin.register
+
+        <ul>
+          <li><a href="dismantle.plugin.html#module-dismantle.plugin.register">module</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="E" class="genindex-section">
+  <h2>E</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="dismantle.extension.html#dismantle.extension.Extensions">Extensions (class in dismantle.extension)</a>
+
+        <ul>
+          <li><a href="dismantle.extension.html#dismantle.extension.extensions.Extensions">(class in dismantle.extension.extensions)</a>
+</li>
+        </ul></li>
+        <li><a href="dismantle.extension.html#dismantle.extension.Extensions.extensions">extensions (dismantle.extension.Extensions property)</a>
+
+        <ul>
+          <li><a href="dismantle.extension.html#dismantle.extension.extensions.Extensions.extensions">(dismantle.extension.extensions.Extensions property)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="dismantle.package.html#dismantle.package.DirectoryPackageFormat.extract">extract() (dismantle.package.DirectoryPackageFormat static method)</a>
+
+        <ul>
+          <li><a href="dismantle.package.html#dismantle.package.PackageFormat.extract">(dismantle.package.PackageFormat static method)</a>
+</li>
+          <li><a href="dismantle.package.html#dismantle.package.TarPackageFormat.extract">(dismantle.package.TarPackageFormat static method)</a>
+</li>
+          <li><a href="dismantle.package.html#dismantle.package.TgzPackageFormat.extract">(dismantle.package.TgzPackageFormat static method)</a>
+</li>
+          <li><a href="dismantle.package.html#dismantle.package.ZipPackageFormat.extract">(dismantle.package.ZipPackageFormat static method)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="F" class="genindex-section">
+  <h2>F</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="dismantle.index.html#dismantle.index.IndexHandler.find">find() (dismantle.index.IndexHandler method)</a>
+
+        <ul>
+          <li><a href="dismantle.index.html#dismantle.index.JsonFileIndexHandler.find">(dismantle.index.JsonFileIndexHandler method)</a>
+</li>
+          <li><a href="dismantle.index.html#dismantle.index.JsonUrlIndexHandler.find">(dismantle.index.JsonUrlIndexHandler method)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="G" class="genindex-section">
+  <h2>G</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="dismantle.package.html#dismantle.package.DirectoryPackageFormat.grasps">grasps() (dismantle.package.DirectoryPackageFormat static method)</a>
+
+        <ul>
+          <li><a href="dismantle.package.html#dismantle.package.HttpPackageHandler.grasps">(dismantle.package.HttpPackageHandler static method)</a>
+</li>
+          <li><a href="dismantle.package.html#dismantle.package.LocalPackageHandler.grasps">(dismantle.package.LocalPackageHandler static method)</a>
+</li>
+          <li><a href="dismantle.package.html#dismantle.package.PackageFormat.grasps">(dismantle.package.PackageFormat static method)</a>
+</li>
+          <li><a href="dismantle.package.html#dismantle.package.PackageHandler.grasps">(dismantle.package.PackageHandler static method)</a>
+</li>
+          <li><a href="dismantle.package.html#dismantle.package.TarPackageFormat.grasps">(dismantle.package.TarPackageFormat static method)</a>
+</li>
+          <li><a href="dismantle.package.html#dismantle.package.TgzPackageFormat.grasps">(dismantle.package.TgzPackageFormat static method)</a>
+</li>
+          <li><a href="dismantle.package.html#dismantle.package.ZipPackageFormat.grasps">(dismantle.package.ZipPackageFormat static method)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="H" class="genindex-section">
+  <h2>H</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="dismantle.index.html#dismantle.index.IndexHandler.handles">handles() (dismantle.index.IndexHandler static method)</a>
+
+        <ul>
+          <li><a href="dismantle.index.html#dismantle.index.JsonFileIndexHandler.handles">(dismantle.index.JsonFileIndexHandler static method)</a>
+</li>
+          <li><a href="dismantle.index.html#dismantle.index.JsonUrlIndexHandler.handles">(dismantle.index.JsonUrlIndexHandler static method)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="dismantle.package.html#dismantle.package.HttpPackageHandler">HttpPackageHandler (class in dismantle.package)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="I" class="genindex-section">
+  <h2>I</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="dismantle.extension.html#dismantle.extension.IExtension">IExtension (class in dismantle.extension)</a>
+
+        <ul>
+          <li><a href="dismantle.extension.html#dismantle.extension.iextension.IExtension">(class in dismantle.extension.iextension)</a>
+</li>
+        </ul></li>
+        <li><a href="dismantle.extension.html#dismantle.extension.Extensions.imports">imports (dismantle.extension.Extensions property)</a>
+
+        <ul>
+          <li><a href="dismantle.extension.html#dismantle.extension.extensions.Extensions.imports">(dismantle.extension.extensions.Extensions property)</a>
+</li>
+          <li><a href="dismantle.plugin.html#dismantle.plugin.Plugins.imports">(dismantle.plugin.Plugins property)</a>
+</li>
+          <li><a href="dismantle.plugin.html#dismantle.plugin.plugins.Plugins.imports">(dismantle.plugin.plugins.Plugins property)</a>
+</li>
+        </ul></li>
+        <li><a href="dismantle.index.html#dismantle.index.IndexHandler">IndexHandler (class in dismantle.index)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="dismantle.package.html#dismantle.package.HttpPackageHandler.install">install() (dismantle.package.HttpPackageHandler method)</a>
+
+        <ul>
+          <li><a href="dismantle.package.html#dismantle.package.LocalPackageHandler.install">(dismantle.package.LocalPackageHandler method)</a>
+</li>
+          <li><a href="dismantle.package.html#dismantle.package.PackageHandler.install">(dismantle.package.PackageHandler method)</a>
+</li>
+        </ul></li>
+        <li><a href="dismantle.package.html#dismantle.package.HttpPackageHandler.installed">installed (dismantle.package.HttpPackageHandler property)</a>
+
+        <ul>
+          <li><a href="dismantle.package.html#dismantle.package.LocalPackageHandler.installed">(dismantle.package.LocalPackageHandler property)</a>
+</li>
+          <li><a href="dismantle.package.html#dismantle.package.PackageHandler.installed">(dismantle.package.PackageHandler property)</a>
+</li>
+        </ul></li>
+        <li><a href="dismantle.plugin.html#dismantle.plugin.IPlugin">IPlugin (class in dismantle.plugin)</a>
+
+        <ul>
+          <li><a href="dismantle.plugin.html#dismantle.plugin.iplugin.IPlugin">(class in dismantle.plugin.iplugin)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="J" class="genindex-section">
+  <h2>J</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="dismantle.index.html#dismantle.index.JsonFileIndexHandler">JsonFileIndexHandler (class in dismantle.index)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="dismantle.index.html#dismantle.index.JsonUrlIndexHandler">JsonUrlIndexHandler (class in dismantle.index)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="L" class="genindex-section">
+  <h2>L</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="dismantle.package.html#dismantle.package.LocalPackageHandler">LocalPackageHandler (class in dismantle.package)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="M" class="genindex-section">
+  <h2>M</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="dismantle.html#dismantle.cli.main">main() (in module dismantle.cli)</a>
+</li>
+        <li>
+    module
+
+        <ul>
+          <li><a href="dismantle.html#module-dismantle">dismantle</a>
+</li>
+          <li><a href="dismantle.html#module-dismantle.cli">dismantle.cli</a>
+</li>
+          <li><a href="dismantle.extension.html#module-dismantle.extension">dismantle.extension</a>
+</li>
+          <li><a href="dismantle.extension.html#module-dismantle.extension.extensions">dismantle.extension.extensions</a>
+</li>
+          <li><a href="dismantle.extension.html#module-dismantle.extension.iextension">dismantle.extension.iextension</a>
+</li>
+          <li><a href="dismantle.index.html#module-dismantle.index">dismantle.index</a>
+</li>
+          <li><a href="dismantle.package.html#module-dismantle.package">dismantle.package</a>
+</li>
+          <li><a href="dismantle.plugin.html#module-dismantle.plugin">dismantle.plugin</a>
+</li>
+          <li><a href="dismantle.plugin.html#module-dismantle.plugin.iplugin">dismantle.plugin.iplugin</a>
+</li>
+          <li><a href="dismantle.plugin.html#module-dismantle.plugin.plugin">dismantle.plugin.plugin</a>
+</li>
+          <li><a href="dismantle.plugin.html#module-dismantle.plugin.plugins">dismantle.plugin.plugins</a>
+</li>
+          <li><a href="dismantle.plugin.html#module-dismantle.plugin.register">dismantle.plugin.register</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="N" class="genindex-section">
+  <h2>N</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="dismantle.extension.html#dismantle.extension.IExtension.name">name (dismantle.extension.IExtension property)</a>
+
+        <ul>
+          <li><a href="dismantle.extension.html#dismantle.extension.iextension.IExtension.name">(dismantle.extension.iextension.IExtension property)</a>
+</li>
+          <li><a href="dismantle.package.html#dismantle.package.HttpPackageHandler.name">(dismantle.package.HttpPackageHandler property)</a>
+</li>
+          <li><a href="dismantle.package.html#dismantle.package.LocalPackageHandler.name">(dismantle.package.LocalPackageHandler property)</a>
+</li>
+          <li><a href="dismantle.package.html#dismantle.package.PackageHandler.name">(dismantle.package.PackageHandler property)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="O" class="genindex-section">
+  <h2>O</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="dismantle.index.html#dismantle.index.IndexHandler.outdated">outdated (dismantle.index.IndexHandler property)</a>
+
+        <ul>
+          <li><a href="dismantle.index.html#dismantle.index.JsonFileIndexHandler.outdated">(dismantle.index.JsonFileIndexHandler property)</a>
+</li>
+          <li><a href="dismantle.index.html#dismantle.index.JsonUrlIndexHandler.outdated">(dismantle.index.JsonUrlIndexHandler property)</a>
+</li>
+          <li><a href="dismantle.package.html#dismantle.package.HttpPackageHandler.outdated">(dismantle.package.HttpPackageHandler property)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="P" class="genindex-section">
+  <h2>P</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="dismantle.package.html#dismantle.package.PackageFormat">PackageFormat (class in dismantle.package)</a>
+</li>
+        <li><a href="dismantle.package.html#dismantle.package.PackageHandler">PackageHandler (class in dismantle.package)</a>
+</li>
+        <li><a href="dismantle.index.html#dismantle.index.IndexHandler.packages">packages() (dismantle.index.IndexHandler method)</a>
+
+        <ul>
+          <li><a href="dismantle.index.html#dismantle.index.JsonFileIndexHandler.packages">(dismantle.index.JsonFileIndexHandler method)</a>
+</li>
+          <li><a href="dismantle.index.html#dismantle.index.JsonUrlIndexHandler.packages">(dismantle.index.JsonUrlIndexHandler method)</a>
+</li>
+        </ul></li>
+        <li><a href="dismantle.package.html#dismantle.package.LocalPackageHandler.path">path (dismantle.package.LocalPackageHandler property)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="dismantle.plugin.html#dismantle.plugin.plugin">plugin (class in dismantle.plugin)</a>
+
+        <ul>
+          <li><a href="dismantle.plugin.html#dismantle.plugin.plugin.plugin">(class in dismantle.plugin.plugin)</a>
+</li>
+        </ul></li>
+        <li><a href="dismantle.plugin.html#dismantle.plugin.Plugins">Plugins (class in dismantle.plugin)</a>
+
+        <ul>
+          <li><a href="dismantle.plugin.html#dismantle.plugin.plugins.Plugins">(class in dismantle.plugin.plugins)</a>
+</li>
+        </ul></li>
+        <li><a href="dismantle.plugin.html#dismantle.plugin.Plugins.plugins">plugins (dismantle.plugin.Plugins property)</a>
+
+        <ul>
+          <li><a href="dismantle.plugin.html#dismantle.plugin.plugins.Plugins.plugins">(dismantle.plugin.plugins.Plugins property)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="R" class="genindex-section">
+  <h2>R</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="dismantle.plugin.html#dismantle.plugin.register">register() (in module dismantle.plugin)</a>
+
+        <ul>
+          <li><a href="dismantle.plugin.html#dismantle.plugin.register.register">(in module dismantle.plugin.register)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="T" class="genindex-section">
+  <h2>T</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="dismantle.package.html#dismantle.package.TarPackageFormat">TarPackageFormat (class in dismantle.package)</a>
+</li>
+        <li><a href="dismantle.package.html#dismantle.package.TgzPackageFormat">TgzPackageFormat (class in dismantle.package)</a>
+</li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="dismantle.extension.html#dismantle.extension.Extensions.types">types (dismantle.extension.Extensions property)</a>
+
+        <ul>
+          <li><a href="dismantle.extension.html#dismantle.extension.extensions.Extensions.types">(dismantle.extension.extensions.Extensions property)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="U" class="genindex-section">
+  <h2>U</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="dismantle.package.html#dismantle.package.HttpPackageHandler.uninstall">uninstall() (dismantle.package.HttpPackageHandler method)</a>
+
+        <ul>
+          <li><a href="dismantle.package.html#dismantle.package.LocalPackageHandler.uninstall">(dismantle.package.LocalPackageHandler method)</a>
+</li>
+          <li><a href="dismantle.package.html#dismantle.package.PackageHandler.uninstall">(dismantle.package.PackageHandler method)</a>
+</li>
+        </ul></li>
+    </ul></td>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="dismantle.index.html#dismantle.index.IndexHandler.update">update() (dismantle.index.IndexHandler method)</a>
+
+        <ul>
+          <li><a href="dismantle.index.html#dismantle.index.JsonFileIndexHandler.update">(dismantle.index.JsonFileIndexHandler method)</a>
+</li>
+          <li><a href="dismantle.index.html#dismantle.index.JsonUrlIndexHandler.update">(dismantle.index.JsonUrlIndexHandler method)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="V" class="genindex-section">
+  <h2>V</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="dismantle.package.html#dismantle.package.HttpPackageHandler.verify">verify() (dismantle.package.HttpPackageHandler method)</a>
+
+        <ul>
+          <li><a href="dismantle.package.html#dismantle.package.LocalPackageHandler.verify">(dismantle.package.LocalPackageHandler method)</a>
+</li>
+          <li><a href="dismantle.package.html#dismantle.package.PackageFormat.verify">(dismantle.package.PackageFormat static method)</a>
+</li>
+          <li><a href="dismantle.package.html#dismantle.package.PackageHandler.verify">(dismantle.package.PackageHandler method)</a>
+</li>
+        </ul></li>
+    </ul></td>
+  </tr></table>
+</section>
+
+<section id="Z" class="genindex-section">
+  <h2>Z</h2>
+  <table style="width: 100%" class="indextable genindextable"><tr>
+    <td style="width: 33%; vertical-align: top;"><ul>
+        <li><a href="dismantle.package.html#dismantle.package.ZipPackageFormat">ZipPackageFormat (class in dismantle.package)</a>
+</li>
+    </ul></td>
+  </tr></table>
+</section>
+
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2022 Area28 Technologies
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            <div class="icons">
+              
+            </div>
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/scripts/furo.js"></script>
+    </body>
+</html>
