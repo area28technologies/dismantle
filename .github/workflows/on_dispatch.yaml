@@ -44,6 +44,7 @@ jobs:
           tag: ${{ inputs.tag }}
           message: "build: tag release ${{ inputs.tag }}"
           github_token: ${{ secrets.GITHUB_TOKEN }}
+          force_push_tag: true
       - run: echo "🎉 The tags ${{ inputs.tag }} and latest were successfully created."
   changelog:
     runs-on: ubuntu-latest
