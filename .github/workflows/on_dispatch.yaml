@@ -38,6 +38,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
       - run: echo "🖥️ Generating tag ${{ inputs.tag }}."
+      - run: echo "$GITHUB_CONTEXT"
       - uses: rickstaa/action-create-tag@v1
         with:
           tag: ${{ inputs.tag }}
