@@ -4,6 +4,7 @@ import atexit
 import json
 import tempfile
 from hashlib import md5
+from os.path import expanduser
 from pathlib import Path
 from typing import Any, Dict, Iterator, Optional, Union
 
@@ -67,7 +68,7 @@ class JsonFileIndexHandler(IndexHandler):
     def __init__(self, path: str, cache_dir: Optional[str] = None) -> None:
         """With the given path, process data and return the results."""
         path = str(path)[7:] if str(path)[:7] == 'file://' else str(path)
-        self._path = Path(path)
+        self._path = Path(expanduser(path)).resolve()
         if not self._path.exists():
             message = 'index file not found'
             raise FileNotFoundError(message)
