@@ -1,3 +1,4 @@
+"""Test fetching a package from a remote server."""
 import os
 
 import pytest

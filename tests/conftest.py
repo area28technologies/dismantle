@@ -1,3 +1,4 @@
+"""Configure PyTest."""
 import shutil
 from pathlib import Path
 
@@ -5,7 +6,7 @@ import pytest
 
 
 @pytest.fixture()
-def datadir(tmpdir, request):
+def datadir(tmpdir: Path, request):
     """Provide a data directory for unit tests.
 
     Fixture responsible for searching a folder with the same name of

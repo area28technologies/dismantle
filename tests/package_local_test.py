@@ -1,3 +1,4 @@
+"""Test using packages stored on the local filesystem."""
 import os
 
 import pytest
