@@ -152,29 +152,3 @@ lint = [
 [build-system]
 requires = ["pdm-pep517>=0.12.0"]
 build-backend = "pdm.pep517.api"
-
-[tool.poetry.dependencies]
-python = "^3.7"
-requests = "^2.25.1"
-
-[tool.poetry.dev-dependencies]
-pytest = "^6.2.5"
-coverage = { extras = ["toml"], version = "^6.1.1" }
-pytest-cov = "^3.0.0"
-MarkupSafe = "^2.1.1"
-gitlint = "^0.17.0"
-responses = "^0.20.0"
-flake8-isort = "^4.1.1"
-flake8-bugbear = "^22.4.25"
-flake8-docstrings = "^1.6.0"
-flake8-bandit = "^3.0.0"
-flake8-pytest-style = "^1.6.0"
-poetry-dynamic-versioning = "^0.15.0"
-invoke = "^1.7.0"
-flake9 = "^3.8.3"
-Sphinx = "^4.5.0"
-myst-parser = "^0.17.2"
-sphinx-pyproject = "^0.1.0"
-sphinx-argparse = "^0.3.1"
-furo = "^2022.4.7"
-pytest-httpserver = "^1.0.4"
