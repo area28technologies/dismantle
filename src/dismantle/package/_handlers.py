@@ -384,7 +384,7 @@ class HttpPackageHandler(PackageHandler):
     @property
     def _digest(self) -> str:
         """Return the md5 digest of the currently cached index file."""
-        digest = md5()  # noqa: S303
+        digest = md5()
         if not self._cache.exists():
             return digest.hexdigest()
         with open(self._cache, 'rb') as cached_package:

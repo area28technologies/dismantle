@@ -52,7 +52,7 @@ class Extensions:
                         self._imports[prefix].prefix = prefix
 
     def _load(self, path: Path, prefix: str):
-        """Python 3.5 and up. (I hate you package system)."""
+        """Python 3.5 and up."""
         spec = importlib.util.spec_from_file_location(prefix, path)
         module = importlib.util.module_from_spec(spec)
         sys.modules[prefix] = module
