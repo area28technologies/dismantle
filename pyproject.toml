@@ -31,6 +31,16 @@ classifiers = [
 [project.scripts]
 dismantle = "dismantle.cli:main"
 
+[project.optional-dependencies]
+
+[tool.pdm.scripts]
+lint = { cmd = "flake8 src tests" }
+test = { cmd = "pytest tests" }
+pre_document = { cmd = "sphinx-apidoc -f -o docs/src src/dismantle/" }
+document = { cmd = "sphinx-build docs/src docs/build" }
+pre_coverage = { cmd = "pytest tests -qq --cov=dismantle --cov-report=xml" }
+coverage = { cmd = "coverage report" }
+
 [tool.flake8]
 max-line-length = 79
 max-doc-length = 72
@@ -82,21 +92,12 @@ html_theme = "furo"
 html_theme_options = { sidebar_hide_name = true, announcement = "<em>RELEASE</em> version v1.0.0 released!", light_logo = "assets/logo-light.svg", dark_logo = "assets/logo-dark.svg", light_css_variables = { color-brand-primary = "#1F1B53", color-brand-content = "#1F1B53" } }
 package_root = "src/dismantle"
 html_static_path = ["_static"]
-confluence_publish = true
-confluence_space_key = 'AREA28'
-confluence_server_user = 'gary@area28.io'
-confluence_server_pass = '27576VIecI0WMM5VLQwK2A48'
-confluence_server_url = 'https://area28.atlassian.net/wiki/'
-confluence_parent_page = 'Documentation'
-confluence_page_hierarchy = true
-confluence_publish_dryrun = false
 extensions = [
     "myst_parser",
     "sphinx.ext.napoleon",
     "sphinxarg.ext",
     "sphinx.ext.viewcode",
-    "sphinx.ext.autodoc",
-    "sphinxcontrib.confluencebuilder"
+    "sphinx.ext.autodoc"
 ]
 myst_enable_extensions = [
     "amsmath",
@@ -116,15 +117,6 @@ myst_enable_extensions = [
 [tool.pdm]
 version = { from = "src/dismantle/__version__.py" }
 
-[tool.pdm.scripts]
-lint = { cmd = "flake8 src tests" }
-test = { cmd = "pytest tests" }
-pre_document = { cmd = "sphinx-apidoc -f -o docs/src src/dismantle/" }
-document = { cmd = "sphinx-build docs/src docs/build" }
-confluence = { cmd = "sphinx-build -b confluence docs/src docs/build -E -a" }
-pre_coverage = { cmd = "pytest tests -qq --cov=dismantle --cov-report=xml" }
-coverage = { cmd = "coverage report" }
-
 [tool.pdm.dev-dependencies]
 test = ["pytest>=7.1.2", "pytest-cov>=3.0.0", "pytest-httpserver>=1.0.4"]
 document = [
@@ -133,8 +125,7 @@ document = [
     "sphinx-pyproject>=0.1.0",
     "sphinx-argparse>=0.3.1",
     "invocations>=2.6.0",
-    "furo>=2022.4.7",
-    "sphinxcontrib-confluencebuilder>=1.8.0",
+    "furo>=2022.4.7"
 ]
 lint = [
     "flake9>=3.8.3.post2",
@@ -149,6 +140,7 @@ lint = [
     "pep8-naming>=0.11.1",
     "gitlint>=0.17.0",
     "setuptools>=62.2.0",
+    "toml>=0.10.2",
 ]
 
 [build-system]
