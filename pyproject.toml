@@ -34,10 +34,14 @@ dismantle = "dismantle.cli:main"
 [tool.flake8]
 max-line-length = 79
 max-doc-length = 72
-max-complexity = 6
+max-complexity = 7
 docstring-convention = "pep257"
 show-source = true
-ignore = ["S101", "B020", "C901", "D100", "D101", "D102", "D103"]
+per-file-ignores = """
+    tests/*_test.py: S101, D103
+    tests/data/*: D100, D101, D102
+    src/dismantle/extension/extensions.py: B020
+"""
 exclude = [
     ".git",
     ".github",
