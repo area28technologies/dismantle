@@ -1,3 +1,4 @@
+"""Test using a json file as an index."""
 from json import JSONDecodeError
 
 import pytest

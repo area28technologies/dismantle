@@ -1,3 +1,4 @@
+"""Run full process tests on dismantle."""
 from pathlib import Path
 
 from dismantle.extension import Extensions
@@ -9,12 +10,12 @@ def test_full(datadir: Path) -> None:
     from tests.ColorExtension import ColorExtension
     from tests.GreetingExtension import GreetingExtension
     ext_types = [ColorExtension, GreetingExtension]
-    index_src = datadir.join('index.json')
-    index = JsonFileIndexHandler(index_src)
+    index_src = datadir / 'index.json'
+    index = JsonFileIndexHandler(str(index_src))
     packages = {}
     for pkg_meta in index:
         meta = index[pkg_meta]
-        path = datadir.join(meta['path'])
+        path = datadir / meta['path']
         package = LocalPackageHandler(meta['name'], path)
         package._meta = {**package._meta, **meta}
         package.install()

@@ -1,3 +1,4 @@
+"""Test loading extensions."""
 import sys
 from pathlib import Path
 
@@ -11,12 +12,12 @@ def test_success(datadir: Path) -> None:
     from tests.GreetingExtension import GreetingExtension
 
     ext_types = [ColorExtension, GreetingExtension]
-    index_src = datadir.join('index.json')
-    index = JsonFileIndexHandler(index_src)
+    index_src = datadir / 'index.json'
+    index = JsonFileIndexHandler(str(index_src))
     packages = {}
     for pkg_meta in index:
         meta = index[pkg_meta]
-        path = datadir.join(meta['path'])
+        path = datadir / meta['path']
         package = LocalPackageHandler(meta['name'], path)
         package._meta = {**package._meta, **meta}
         package.install()
@@ -43,12 +44,12 @@ def test_in_sys_modules(datadir: Path) -> None:
     from tests.ColorExtension import ColorExtension
 
     ext_types = [ColorExtension]
-    index_src = datadir.join('index_in_sys_modules.json')
-    index = JsonFileIndexHandler(index_src)
+    index_src = datadir / 'index_in_sys_modules.json'
+    index = JsonFileIndexHandler(str(index_src))
     packages = {}
     for pkg_meta in index:
         meta = index[pkg_meta]
-        path = datadir.join(meta['path'])
+        path = datadir / meta['path']
         package = LocalPackageHandler(meta['name'], path)
         package._meta = {**package._meta, **meta}
         package.install()

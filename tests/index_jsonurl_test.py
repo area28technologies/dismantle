@@ -1,3 +1,4 @@
+"""Test fetching the json index from a remote server."""
 from hashlib import md5
 from json import JSONDecodeError
 from shutil import copy2

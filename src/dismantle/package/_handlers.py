@@ -1,3 +1,14 @@
+"""Provides the PackageHandler interface and two example handlers.
+
+Each package can be located in one of multiple locations. Packages can
+be located on a remote server, on the local filesystem, or any  other
+custom location.  In order to add a new custom location, the
+PackageHandler needs to be extended to handle the new custom location.
+
+Currently, two handlers are provided, one to handle packages stored on
+the local filesystem, and one to support packages located online and
+retrieved using a web request.
+"""
 import abc
 import atexit
 import json
@@ -21,6 +32,12 @@ Formats = Optional[List[PackageFormat]]
 
 
 class PackageHandler(metaclass=abc.ABCMeta):
+    """Base PackageHandler interface.
+
+    The PackageHandler interface defines the structure expected for all
+    package handlers and should be extended to provide additional
+    custom package handler.
+    """
 
     @abc.abstractmethod
     def __getattr__(self, name) -> object:
@@ -30,11 +47,13 @@ class PackageHandler(metaclass=abc.ABCMeta):
     @property
     @abc.abstractmethod
     def name(self) -> str:
+        """Return a string containing the name of the package."""
         ...
 
     @property
     @abc.abstractmethod
     def installed(self) -> bool:
+        """Return a boolean if the package has been installed."""
         ...
 
     @staticmethod
