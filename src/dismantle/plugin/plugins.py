@@ -1,11 +1,7 @@
 """Plugins locator."""
 import logging
 import os
-
-try:
-    from importlib.abc import Loader as imp  # noqa: N813
-except ImportError:
-    import imp  # NOQA: F401
+from importlib.abc import Loader
 
 from dismantle.plugin import IPlugin, _plugins
 
@@ -52,22 +48,21 @@ class Plugins:
                         fd = os.path.splitext(name)[0]
                         full_path = os.path.join(root, fd)
                         v = full_path[len(plg_files):].replace(os.sep, '.')
-                        prefix = _prefix + '.plugin' + v
+                        prefix = f'{_prefix}.plugin{v}'
                         self._imports[prefix] = self._import(full_path, prefix)
 
     def _import(self, path, prefix):
         """Import a file or module into our imports list."""
-        # use imp to correctly load the plugin as a module
         if os.path.isdir(path):
-            spec = ('py', 'r', imp.PKG_DIRECTORY)
-            module = imp.load_module(prefix, None, path, spec)
+            spec = ('py', 'r', Loader.PKG_DIRECTORY)
+            module = Loader.load_module(prefix, None, path, spec)
         else:
             with open(path + '.py', 'r') as plugin_file:
-                spec = ('py', 'r', imp.PY_SOURCE)
-                module = imp.load_module(
+                spec = ('py', 'r', Loader.PY_SOURCE)
+                module = Loader.load_module(
                     prefix,
                     plugin_file,
-                    path + '.py',
+                    f'{path}.py',
                     spec
                 )
         return module
