@@ -31,8 +31,6 @@ classifiers = [
 [project.scripts]
 dismantle = "dismantle.cli:main"
 
-[project.optional-dependencies]
-
 [tool.flake8]
 max-line-length = 79
 max-doc-length = 72
