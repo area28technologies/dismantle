@@ -189,7 +189,7 @@ class JsonUrlIndexHandler(IndexHandler):
     @property
     def _digest(self) -> str:
         """Return the md5 digest of the currently cached index file."""
-        digest = md5()  # noqa: S303
+        digest = md5()
         with open(self._cached_index, 'rb') as cached_index:
             for block in iter(lambda: cached_index.read(65536), b''):
                 digest.update(block)
