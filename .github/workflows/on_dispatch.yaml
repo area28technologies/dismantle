@@ -1,10 +1,10 @@
-name: Dispatching
+name: Release
 on:
   workflow_dispatch:
     inputs:
       tag:
         description: 'Version number to build'
-        required: true 
+        required: true
         type: string
 jobs:
   validate:
