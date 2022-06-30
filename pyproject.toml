@@ -48,9 +48,11 @@ max-complexity = 7
 docstring-convention = "pep257"
 show-source = true
 per-file-ignores = """
-    tests/*_test.py: S101, D103
+    tests/*_test.py: S101, D103, S303, S324
     tests/data/*: D100, D101, D102
     src/dismantle/extension/extensions.py: B020
+    src/dismantle/index/_handlers.py: S303, S324
+    src/dismantle/package/_handlers.py: S303, S324
 """
 exclude = [
     ".git",
@@ -118,7 +120,10 @@ myst_enable_extensions = [
 version = { from = "src/dismantle/__version__.py" }
 
 [tool.pdm.dev-dependencies]
-test = ["pytest>=7.1.2", "pytest-cov>=3.0.0", "pytest-httpserver>=1.0.4"]
+test = [
+    "pytest>=7.1.2",
+    "pytest-cov>=3.0.0",
+    "pytest-httpserver>=1.0.4"]
 document = [
     "Sphinx>=4.5.0",
     "myst-parser>=0.17.2",
