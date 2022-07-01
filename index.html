@@ -173,8 +173,18 @@
 <li class="toctree-l2"><a class="reference internal" href="dismantle.plugin.html">dismantle.plugin package</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing to Dismantle</a></li>
-<li class="toctree-l1"><a class="reference internal" href="contributing.html#code-flow">Code flow</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="modules.html">Module Reference</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="dismantle.html">dismantle package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle child pages in navigation</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3"><a class="reference internal" href="dismantle.extension.html">dismantle.extension package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dismantle.index.html">dismantle.index package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dismantle.package.html">dismantle.package package</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dismantle.plugin.html">dismantle.plugin package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Change History</a></li>
 </ul>
 
 </div>
@@ -211,7 +221,72 @@
 </div>
 <section class="tex2jax_ignore mathjax_ignore" id="dismantle">
 <h1>Dismantle<a class="headerlink" href="#dismantle" title="Permalink to this headline">#</a></h1>
-<p><strong>Dismantle</strong> Python package / plugin / extension manager.</p>
+<p><strong>Dismantle</strong> is a module created for Python programs to provide the ability to provide additional functionality using packages listed within local or remote indices and installed during runtime.</p>
+<p>Dismantle does this by checking a package index and using that index to manage package versions. Packages then contain plugins (using decorators) and extensions (using a custom module loader) to add the additional functionality to the application.</p>
+<section id="installing-dismantle">
+<h2>Installing Dismantle<a class="headerlink" href="#installing-dismantle" title="Permalink to this headline">#</a></h2>
+<p>Dismantle is available on PyPI:</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python -m pip install dismantle
+</pre></div>
+</div>
+<p>NOTE: *Dismantle officially supports Python from 3.7 up</p>
+</section>
+<section id="supported-features-bestpractices">
+<h2>Supported Features &amp; Best–Practices<a class="headerlink" href="#supported-features-bestpractices" title="Permalink to this headline">#</a></h2>
+<p>Dismantle provides the flexibility within applications allowing developers to build rich ecosystems around core applications. It does this by providing the following:</p>
+<section id="index-management">
+<h3>Index Management<a class="headerlink" href="#index-management" title="Permalink to this headline">#</a></h3>
+<p>Index files are used to provide list of available packages and provide information on packages and
+the versions of said packages available.</p>
+<ul class="simple">
+<li><p>support for multiple index files that cascade</p></li>
+<li><p>easy to create custom index handlers providing additional ways to define package indices</p></li>
+<li><p>local index file support using json built in</p></li>
+<li><p>url based index file support using json built in</p></li>
+<li><p>etag based caching for url based index</p></li>
+</ul>
+</section>
+<section id="packaging">
+<h3>Packaging<a class="headerlink" href="#packaging" title="Permalink to this headline">#</a></h3>
+<p>Packages listed in index files provide the ability to bundle features and act as a transport
+mechanism for additional functionality while providing security.</p>
+<ul class="simple">
+<li><p>easy to create custom package handlers providing additional ways to define package sources</p></li>
+<li><p>easy to create custom package formats compression types and structures</p></li>
+<li><p>support for zip, tar.gz, tgz, and local directories as package formats built in</p></li>
+<li><p>support for local and url based (http/https) package handlers built in</p></li>
+<li><p>hash validation for packages with the ability to verify package integrity</p></li>
+</ul>
+</section>
+<section id="extensions">
+<h3>Extensions<a class="headerlink" href="#extensions" title="Permalink to this headline">#</a></h3>
+<p>Extensions contained within packages provide a way to dynamically load modules at runtime for
+Python modules as needed.  Packages can replace or extend application functionality at runtime by
+replacing or adding modules in Pythons global modules manager.</p>
+<ul class="simple">
+<li><p>Categorized extension groups to filter extension types (eg. loggers, parsers, …)</p></li>
+<li><p>Support for <strong>init</strong> or .py based module loading.</p></li>
+<li><p>Extension activation and deactivation management.</p></li>
+<li><p>Module name collision avoidance</p></li>
+<li><p>Hierarchical module naming</p></li>
+</ul>
+</section>
+<section id="plugins">
+<h3>Plugins<a class="headerlink" href="#plugins" title="Permalink to this headline">#</a></h3>
+<p>Plugins contained within packages provide a way to intercept function parameters and return values
+in order to manipulate data on the fly.  Plugins can be used for data validation, manipilation, or
+to provide additional logging or auditing functionality.</p>
+<ul class="simple">
+<li><p>Decorator based plugins with pre and post value interceptions and/or modification</p></li>
+<li><p>Multiple plugins per function with ability to set execution order</p></li>
+<li><p>Activation management</p></li>
+</ul>
+</section>
+</section>
+<section id="example-implementations">
+<h2>Example implementations<a class="headerlink" href="#example-implementations" title="Permalink to this headline">#</a></h2>
+<section id="plugin">
+<h3>Plugin<a class="headerlink" href="#plugin" title="Permalink to this headline">#</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">"""Simple plugin example"""</span>
 <span class="kn">from</span> <span class="nn">dismantle</span> <span class="kn">import</span> <span class="n">plugin</span>
 
@@ -228,6 +303,9 @@
 
 </pre></div>
 </div>
+</section>
+<section id="extension">
+<h3>Extension<a class="headerlink" href="#extension" title="Permalink to this headline">#</a></h3>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="sd">"""Full example using all aspects."""</span>
 <span class="kn">from</span> <span class="nn">dismantle.extension</span> <span class="kn">import</span> <span class="n">Extensions</span><span class="p">,</span> <span class="n">IExtension</span>
 <span class="kn">from</span> <span class="nn">dismantle.index</span> <span class="kn">import</span> <span class="n">JsonFileIndexHandler</span>
@@ -271,58 +349,6 @@
 <span class="p">]</span>
 </pre></div>
 </div>
-<p>Dismantle allows you to provide the ability to create a plugin/extension/module for an application.
-It does this by checking a package index and using that index to manage package versions. Packages
-then contain plugins (using decorators) and extensions (using a custom module loader) to add the
-additional functionality to the application.</p>
-<section id="installing-dismantle-and-supported-versions">
-<h2>Installing Dismantle and Supported Versions<a class="headerlink" href="#installing-dismantle-and-supported-versions" title="Permalink to this headline">#</a></h2>
-<p>Dismantle is available on PyPI:</p>
-<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="gp">$ </span>python -m pip install dismantle
-</pre></div>
-</div>
-<p>Dismantle officially supports Python 3.7+.</p>
-</section>
-<section id="supported-features-bestpractices">
-<h2>Supported Features &amp; Best–Practices<a class="headerlink" href="#supported-features-bestpractices" title="Permalink to this headline">#</a></h2>
-<p>Dismantle is ready for the demands of providing flexibility within applications allowing developers
-to build rich ecosystems around core applications.</p>
-<section id="index-management">
-<h3>Index Management<a class="headerlink" href="#index-management" title="Permalink to this headline">#</a></h3>
-<ul class="simple">
-<li><p>easy to create custom index handlers providing additional ways to define package indexes</p></li>
-<li><p>local index file support using json</p></li>
-<li><p>url based index file support using json</p></li>
-<li><p>etag based caching for url based index</p></li>
-</ul>
-</section>
-<section id="packaging">
-<h3>Packaging<a class="headerlink" href="#packaging" title="Permalink to this headline">#</a></h3>
-<ul class="simple">
-<li><p>easy to create custom package handlers providing additional ways to define package sources</p></li>
-<li><p>easy to create custom package formats compression types and structures</p></li>
-<li><p>support for zip, tar.gz, tgz, and local directories as package formats</p></li>
-<li><p>support for local and url based (http/https) package handlers</p></li>
-<li><p>hash validation for packages with the ability to verify package integrity</p></li>
-</ul>
-</section>
-<section id="extensions">
-<h3>Extensions<a class="headerlink" href="#extensions" title="Permalink to this headline">#</a></h3>
-<ul class="simple">
-<li><p>Categorized extension groups to filter extension types (eg. loggers, parsers, …)</p></li>
-<li><p>Support for <strong>init</strong> or .py based module loading.</p></li>
-<li><p>Extension activation and deactivation management.</p></li>
-<li><p>Module name collision avoidance</p></li>
-<li><p>Hierarchical module naming</p></li>
-</ul>
-</section>
-<section id="plugins">
-<h3>Plugins<a class="headerlink" href="#plugins" title="Permalink to this headline">#</a></h3>
-<ul class="simple">
-<li><p>Decorator based plugins with pre and post value modification</p></li>
-<li><p>Multiple plugins per function with ability to set execution order</p></li>
-<li><p>Activation management</p></li>
-</ul>
 </section>
 </section>
 </section>
@@ -375,12 +401,17 @@ to build rich ecosystems around core applications.</p>
           <div class="toc-tree">
             <ul>
 <li><a class="reference internal" href="#">Dismantle</a><ul>
-<li><a class="reference internal" href="#installing-dismantle-and-supported-versions">Installing Dismantle and Supported Versions</a></li>
+<li><a class="reference internal" href="#installing-dismantle">Installing Dismantle</a></li>
 <li><a class="reference internal" href="#supported-features-bestpractices">Supported Features &amp; Best–Practices</a><ul>
 <li><a class="reference internal" href="#index-management">Index Management</a></li>
 <li><a class="reference internal" href="#packaging">Packaging</a></li>
 <li><a class="reference internal" href="#extensions">Extensions</a></li>
 <li><a class="reference internal" href="#plugins">Plugins</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#example-implementations">Example implementations</a><ul>
+<li><a class="reference internal" href="#plugin">Plugin</a></li>
+<li><a class="reference internal" href="#extension">Extension</a></li>
 </ul>
 </li>
 </ul>
