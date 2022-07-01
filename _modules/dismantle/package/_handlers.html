@@ -207,7 +207,18 @@
         </div>
         <article role="main">
           <h1>Source code for dismantle.package._handlers</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">abc</span>
+<span></span><span class="sd">"""Provides the PackageHandler interface and two example handlers.</span>
+
+<span class="sd">Each package can be located in one of multiple locations. Packages can</span>
+<span class="sd">be located on a remote server, on the local filesystem, or any  other</span>
+<span class="sd">custom location.  In order to add a new custom location, the</span>
+<span class="sd">PackageHandler needs to be extended to handle the new custom location.</span>
+
+<span class="sd">Currently, two handlers are provided, one to handle packages stored on</span>
+<span class="sd">the local filesystem, and one to support packages located online and</span>
+<span class="sd">retrieved using a web request.</span>
+<span class="sd">"""</span>
+<span class="kn">import</span> <span class="nn">abc</span>
 <span class="kn">import</span> <span class="nn">atexit</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">shutil</span>
@@ -230,6 +241,12 @@
 
 
 <div class="viewcode-block" id="PackageHandler"><a class="viewcode-back" href="../../../dismantle.package.html#dismantle.package.PackageHandler">[docs]</a><span class="k">class</span> <span class="nc">PackageHandler</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">abc</span><span class="o">.</span><span class="n">ABCMeta</span><span class="p">):</span>
+    <span class="sd">"""Base PackageHandler interface.</span>
+
+<span class="sd">    The PackageHandler interface defines the structure expected for all</span>
+<span class="sd">    package handlers and should be extended to provide additional</span>
+<span class="sd">    custom package handler.</span>
+<span class="sd">    """</span>
 
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span>
@@ -239,11 +256,13 @@
     <span class="nd">@property</span>
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="k">def</span> <span class="nf">name</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+        <span class="sd">"""Return a string containing the name of the package."""</span>
         <span class="o">...</span>
 
     <span class="nd">@property</span>
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="k">def</span> <span class="nf">installed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="sd">"""Return a boolean if the package has been installed."""</span>
         <span class="o">...</span>
 
 <div class="viewcode-block" id="PackageHandler.grasps"><a class="viewcode-back" href="../../../dismantle.package.html#dismantle.package.PackageHandler.grasps">[docs]</a>    <span class="nd">@staticmethod</span>
@@ -574,7 +593,7 @@
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">_digest</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
         <span class="sd">"""Return the md5 digest of the currently cached index file."""</span>
-        <span class="n">digest</span> <span class="o">=</span> <span class="n">md5</span><span class="p">()</span>  <span class="c1"># noqa: S303</span>
+        <span class="n">digest</span> <span class="o">=</span> <span class="n">md5</span><span class="p">()</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
             <span class="k">return</span> <span class="n">digest</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">,</span> <span class="s1">'rb'</span><span class="p">)</span> <span class="k">as</span> <span class="n">cached_package</span><span class="p">:</span>

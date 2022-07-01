@@ -210,11 +210,7 @@
 <span></span><span class="sd">"""Plugins locator."""</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">os</span>
-
-<span class="k">try</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">importlib.abc</span> <span class="kn">import</span> <span class="n">Loader</span> <span class="k">as</span> <span class="n">imp</span>  <span class="c1"># noqa: N813</span>
-<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
-    <span class="kn">import</span> <span class="nn">imp</span>  <span class="c1"># NOQA: F401</span>
+<span class="kn">from</span> <span class="nn">importlib.abc</span> <span class="kn">import</span> <span class="n">Loader</span>
 
 <span class="kn">from</span> <span class="nn">dismantle.plugin</span> <span class="kn">import</span> <span class="n">IPlugin</span><span class="p">,</span> <span class="n">_plugins</span>
 
@@ -261,22 +257,21 @@
                         <span class="n">fd</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">splitext</span><span class="p">(</span><span class="n">name</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
                         <span class="n">full_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">fd</span><span class="p">)</span>
                         <span class="n">v</span> <span class="o">=</span> <span class="n">full_path</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">plg_files</span><span class="p">):]</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">sep</span><span class="p">,</span> <span class="s1">'.'</span><span class="p">)</span>
-                        <span class="n">prefix</span> <span class="o">=</span> <span class="n">_prefix</span> <span class="o">+</span> <span class="s1">'.plugin'</span> <span class="o">+</span> <span class="n">v</span>
+                        <span class="n">prefix</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">_prefix</span><span class="si">}</span><span class="s1">.plugin</span><span class="si">{</span><span class="n">v</span><span class="si">}</span><span class="s1">'</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">_imports</span><span class="p">[</span><span class="n">prefix</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_import</span><span class="p">(</span><span class="n">full_path</span><span class="p">,</span> <span class="n">prefix</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">_import</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">prefix</span><span class="p">):</span>
         <span class="sd">"""Import a file or module into our imports list."""</span>
-        <span class="c1"># use imp to correctly load the plugin as a module</span>
         <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
-            <span class="n">spec</span> <span class="o">=</span> <span class="p">(</span><span class="s1">'py'</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">,</span> <span class="n">imp</span><span class="o">.</span><span class="n">PKG_DIRECTORY</span><span class="p">)</span>
-            <span class="n">module</span> <span class="o">=</span> <span class="n">imp</span><span class="o">.</span><span class="n">load_module</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">spec</span><span class="p">)</span>
+            <span class="n">spec</span> <span class="o">=</span> <span class="p">(</span><span class="s1">'py'</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">,</span> <span class="n">Loader</span><span class="o">.</span><span class="n">PKG_DIRECTORY</span><span class="p">)</span>
+            <span class="n">module</span> <span class="o">=</span> <span class="n">Loader</span><span class="o">.</span><span class="n">load_module</span><span class="p">(</span><span class="n">prefix</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="n">path</span><span class="p">,</span> <span class="n">spec</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span> <span class="o">+</span> <span class="s1">'.py'</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="n">plugin_file</span><span class="p">:</span>
-                <span class="n">spec</span> <span class="o">=</span> <span class="p">(</span><span class="s1">'py'</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">,</span> <span class="n">imp</span><span class="o">.</span><span class="n">PY_SOURCE</span><span class="p">)</span>
-                <span class="n">module</span> <span class="o">=</span> <span class="n">imp</span><span class="o">.</span><span class="n">load_module</span><span class="p">(</span>
+                <span class="n">spec</span> <span class="o">=</span> <span class="p">(</span><span class="s1">'py'</span><span class="p">,</span> <span class="s1">'r'</span><span class="p">,</span> <span class="n">Loader</span><span class="o">.</span><span class="n">PY_SOURCE</span><span class="p">)</span>
+                <span class="n">module</span> <span class="o">=</span> <span class="n">Loader</span><span class="o">.</span><span class="n">load_module</span><span class="p">(</span>
                     <span class="n">prefix</span><span class="p">,</span>
                     <span class="n">plugin_file</span><span class="p">,</span>
-                    <span class="n">path</span> <span class="o">+</span> <span class="s1">'.py'</span><span class="p">,</span>
+                    <span class="sa">f</span><span class="s1">'</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s1">.py'</span><span class="p">,</span>
                     <span class="n">spec</span>
                 <span class="p">)</span>
         <span class="k">return</span> <span class="n">module</span>
