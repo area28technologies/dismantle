@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [v1.0.2] - 2022-07-01
+### :construction_worker: Build System
+- [`1ae7183`](https://github.com/area28technologies/dismantle/commit/1ae7183a91ed6168bee28d5c51a8c382e80dfae2) - **release**: bump version to v1.0.2 *(commit by [@garysb](https://github.com/garysb))*
+
+### :memo: Documentation Changes
+- [`e032b85`](https://github.com/area28technologies/dismantle/commit/e032b85e6c4b8bfd91bb0148b7deb65ef832818c) - update CHANGELOG.md for v1.0.1 [skip ci] *(commit by [@garysb](https://github.com/garysb))*
+- [`f6cc1d9`](https://github.com/area28technologies/dismantle/commit/f6cc1d940eb496b213a6a81f86cf983357fecda6) - update readme and contributing documentation *(commit by [@garysb](https://github.com/garysb))*
+
+
 ## [v1.0.1] - 2022-07-01
 ### :sparkles: New Features
 - [`7d01538`](https://github.com/area28technologies/dismantle/commit/7d01538409b07fe427c8598fcb4316280933f668) - **plugins**: removes support for old imp module *(commit by [@garysb](https://github.com/garysb))*
@@ -35,3 +44,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 [v1.0.0]: https://github.com/area28technologies/dismantle/compare/latest...v1.0.0
 [v1.0.1]: https://github.com/area28technologies/dismantle/compare/v1.0.0...v1.0.1
+[v1.0.2]: https://github.com/area28technologies/dismantle/compare/v1.0.1...v1.0.2
