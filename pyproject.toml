@@ -1,11 +1,12 @@
 [project]
 name = "dismantle"
-dynamic = ["version"]
-description = "Python package / plugin / extension manager."
+# dynamic = ["version"]
+version = "v1.0.2"
+description = "A module for Python to provide the ability to extend programs using packages, plugins, and extensions."
 authors = [{ name = "Area28 Technologies", email = "dev@area28.io" }]
-dependencies = ["requests>=2.27.1"]
+dependencies = ["requests>=2.28.1"]
 requires-python = ">=3.7"
-license = { text = "SEE LICENSE IN LICENSE" }
+license = { file = "LICENSE" }
 readme = "README.md"
 keywords = [
     "packaging",
@@ -27,6 +28,12 @@ classifiers = [
     "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10"
 ]
+
+[project.urls]
+homepage = "https://area28technologies.github.io/dismantle/index.html"
+documentation = "https://area28technologies.github.io/dismantle/index.html"
+repository = "https://github.com/area28technologies/dismantle"
+changelog = "https://github.com/area28technologies/dismantle/blob/main/CHANGELOG.md"
 
 [project.scripts]
 dismantle = "dismantle.cli:main"
@@ -116,14 +123,16 @@ myst_enable_extensions = [
     "tasklist"
 ]
 
-[tool.pdm]
-version = { from = "src/dismantle/__version__.py" }
+[tool.pdm.version]
+source = "file"
+path = "src/dismantle/__version__.py"
 
 [tool.pdm.dev-dependencies]
 test = [
     "pytest>=7.1.2",
     "pytest-cov>=3.0.0",
-    "pytest-httpserver>=1.0.4"]
+    "pytest-httpserver>=1.0.4"
+]
 document = [
     "Sphinx>=4.5.0",
     "myst-parser>=0.17.2",
@@ -149,5 +158,5 @@ lint = [
 ]
 
 [build-system]
-requires = ["pdm-pep517>=0.12.0"]
+requires = ["pdm-pep517"]
 build-backend = "pdm.pep517.api"
