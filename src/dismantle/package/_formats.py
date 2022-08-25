@@ -5,6 +5,8 @@ import zipfile
 from pathlib import Path
 from typing import Union
 
+from dismantle.utils import _parse_filepath
+
 
 class PackageFormat(metaclass=abc.ABCMeta):
     """Base class for packet formats."""
@@ -17,14 +19,8 @@ class PackageFormat(metaclass=abc.ABCMeta):
 
     @staticmethod
     @abc.abstractmethod
-    def verify(signature: str) -> bool:
-        """Verify a packages hash with the provided signature."""
-        ...
-
-    @staticmethod
-    @abc.abstractmethod
     def extract(src: Union[str, Path], dest: Union[str, Path]) -> bool:
-        """Verify a packages hash with the provided signature."""
+        """Extract a package to the cache location."""
         ...
 
 
@@ -34,7 +30,7 @@ class DirectoryPackageFormat(PackageFormat):
     @staticmethod
     def grasps(path: Union[str, Path]) -> bool:
         """Check if dir on the local filesystem has been provided."""
-        path = str(path)[7:] if str(path)[:7] == 'file://' else path
+        path = _parse_filepath(path)
         try:
             return Path(str(path)).is_dir()
         except OSError:
@@ -43,8 +39,8 @@ class DirectoryPackageFormat(PackageFormat):
     @staticmethod
     def extract(src: Union[str, Path], dest: Union[str, Path]) -> None:
         """Use the formatter to process any movement related actions."""
-        src = str(src)[7:] if str(src)[:7] == 'file://' else src
-        dest = str(dest)[7:] if str(dest)[:7] == 'file://' else dest
+        src = _parse_filepath(src)
+        dest = _parse_filepath(dest)
         if not DirectoryPackageFormat.grasps(src):
             message = 'formatter only supports directories'
             raise ValueError(message)
@@ -63,17 +59,15 @@ class ZipPackageFormat(PackageFormat):
     @staticmethod
     def grasps(path: Union[str, Path]) -> bool:
         """Check if dir on the local filesystem has been provided."""
-        path = str(path)[7:] if str(path)[:7] == 'file://' else path
+        path = _parse_filepath(path)
         zip_path = Path(path)
-        if zip_path.suffix != '.zip':
-            return False
-        return True
+        return zip_path.suffix == '.zip'
 
     @staticmethod
     def extract(src: Union[str, Path], dest: Union[str, Path]) -> None:
         """Extract the zipfile to the cache location."""
-        src = str(src)[7:] if str(src)[:7] == 'file://' else src
-        dest = str(dest)[7:] if str(dest)[:7] == 'file://' else dest
+        src = _parse_filepath(src)
+        dest = _parse_filepath(dest)
         src = Path(src)
         dest_path = Path(dest)
 
@@ -93,18 +87,16 @@ class TarPackageFormat(PackageFormat):
     @staticmethod
     def grasps(path: Union[str, Path]) -> bool:
         """Check if dir on the local filesystem has been provided."""
-        path = str(path)[7:] if str(path)[:7] == 'file://' else path
+        path = _parse_filepath(path)
         tar_path = Path(path)
         suffixes = ''.join(tar_path.suffixes)
-        if suffixes != '.tar':
-            return False
-        return True
+        return suffixes == '.tar'
 
     @staticmethod
     def extract(src: Union[str, Path], dest: Union[str, Path]) -> None:
         """Extract the tarfile to the cache location."""
-        src = str(src)[7:] if str(src)[:7] == 'file://' else src
-        dest = str(dest)[7:] if str(dest)[:7] == 'file://' else dest
+        src = _parse_filepath(src)
+        dest = _parse_filepath(dest)
         src_path = Path(src)
         dest_path = Path(dest)
 
@@ -124,18 +116,16 @@ class TgzPackageFormat(PackageFormat):
     @staticmethod
     def grasps(path: Union[str, Path]) -> bool:
         """Check if dir on the local filesystem has been provided."""
-        path = str(path)[7:] if str(path)[:7] == 'file://' else path
+        path = _parse_filepath(path)
         src_path = Path(path)
         suffixes = ''.join(src_path.suffixes)
-        if suffixes not in ['.tgz', '.tar.gz']:
-            return False
-        return True
+        return suffixes in {'.tgz', '.tar.gz'}
 
     @staticmethod
     def extract(src: Union[str, Path], dest: Union[str, Path]) -> None:
         """Extract the tarfile to the cache location."""
-        src = str(src)[7:] if str(src)[:7] == 'file://' else src
-        dest = str(dest)[7:] if str(dest)[:7] == 'file://' else dest
+        src = _parse_filepath(src)
+        dest = _parse_filepath(dest)
         src_path = Path(src)
         dest_path = Path(dest)
 

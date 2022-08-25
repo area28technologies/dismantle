@@ -9,8 +9,10 @@ Currently, two handlers are provided, one to handle packages stored on
 the local filesystem, and one to support packages located online and
 retrieved using a web request.
 """
+
 import abc
 import atexit
+import contextlib
 import json
 import shutil
 import tempfile
@@ -22,6 +24,7 @@ from urllib.parse import urlparse
 
 import requests
 
+from dismantle.utils import _parse_filepath
 from dismantle.package._formats import (
     DirectoryPackageFormat,
     PackageFormat,
@@ -81,6 +84,24 @@ class PackageHandler(metaclass=abc.ABCMeta):
         """Verify a packages hash with the provided signature."""
         ...
 
+    def validate_metadata(self, path):
+        """Checks to see if package metadata is valid"""
+        try:
+            with open(path / 'package.json') as package:
+                meta = json.load(package)
+                if 'name' not in meta:
+                    message = 'meta file missing name value'
+                    raise ValueError(message)
+                if self._meta['name'] != meta['name']:
+                    message = 'meta name does not match provided package name'
+                    raise ValueError(message)
+                if 'version' not in meta:
+                    message = 'meta file missing version value'
+                    raise ValueError(message)
+                return meta
+        except JSONDecodeError as e:
+            message = 'invalud package file format'
+            raise ValueError(message) from e
 
 class LocalPackageHandler(PackageHandler):
     """Directory package structure."""
@@ -92,11 +113,10 @@ class LocalPackageHandler(PackageHandler):
         formats: Optional[Formats] = None
     ) -> None:
         """Initialise the package."""
-        self._meta = {}
-        self._meta['name'] = name
+        self._meta = {'name': name}
         self._path = None
         self._installed = False
-        self._src = str(src)[7:] if str(src)[:7] == 'file://' else src
+        self._src = _parse_filepath(src)
         if formats is None:
             formats = [DirectoryPackageFormat]
         for current_format in formats:
@@ -138,7 +158,7 @@ class LocalPackageHandler(PackageHandler):
 
         Check if a directory on the local filesystem has been provided.
         """
-        path = str(path)[7:] if str(path)[:7] == 'file://' else path
+        path = _parse_filepath(path)
         try:
             return Path(str(path)).exists()
         except OSError:
@@ -154,8 +174,8 @@ class LocalPackageHandler(PackageHandler):
         The local package handler does not install the package. No
         version control exists for the directory package type.
         """
-        path = str(path)[7:] if str(path)[:7] == 'file://' else path
-        self._path = path if path else self._src
+        path = _parse_filepath(path)
+        self._path = path or self._src
         self._format.extract(self._src, self._path)
         self._meta = {**self._meta, **self._load_metadata(self._path)}
         self._installed = True
@@ -178,28 +198,14 @@ class LocalPackageHandler(PackageHandler):
 
     def _load_metadata(self, path: Union[str, Path]):
         """Load the package.json file into memory."""
-        path = Path(str(path)[7:] if str(path)[:7] == 'file://' else path)
-        try:
-            with open(path / 'package.json') as package:
-                meta = json.load(package)
-                if 'name' not in meta:
-                    message = 'meta file missing name value'
-                    raise ValueError(message)
-                if self._meta['name'] != meta['name']:
-                    message = 'meta name does not match provided package name'
-                    raise ValueError(message)
-                if 'version' not in meta:
-                    message = 'meta file missing version value'
-                    raise ValueError(message)
-                return meta
-        except JSONDecodeError:
-            message = 'invalud package file format'
-            raise ValueError(message)
+        path = Path(_parse_filepath(path))
+        return super().validate_metadata(path)
+
 
     @staticmethod
     def _remove_files(path: Union[str, Path]) -> None:
         """Recursively remove the path and all its sub items."""
-        path = str(path)[7:] if str(path)[:7] == 'file://' else path
+        path = _parse_filepath(path)
         try:
             shutil.rmtree(path)
         except OSError:
@@ -217,8 +223,7 @@ class HttpPackageHandler(PackageHandler):
         cache_dir: Optional[Union[str, Path]] = None
     ):
         """Initialise the package."""
-        self._meta = {}
-        self._meta['name'] = name
+        self._meta = {'name': name}
         self._path = None
         self._installed = False
         self._updated = False
@@ -249,7 +254,7 @@ class HttpPackageHandler(PackageHandler):
 
     @property
     def name(self) -> str:
-        """Return the name of the package from the meta data."""
+        """Return the name of the package from the metadata."""
         return self.meta['name']
 
     def __getattr__(self, name):
@@ -268,9 +273,7 @@ class HttpPackageHandler(PackageHandler):
     def grasps(path: Union[str, Path]) -> bool:
         """Check if dir on the local filesystem has been provided."""
         parts = urlparse(str(path))
-        if parts.scheme not in ['http', 'https']:
-            return False
-        return True
+        return parts.scheme in ['http', 'https']
 
     def _fetch_and_extract(self):
         headers = {'If-None-Match': self._digest}
@@ -295,26 +298,15 @@ class HttpPackageHandler(PackageHandler):
         version is different.
         """
         fetch_required = True
-        try:
+        # Ignore _load_metadata, Not Found, and if `_meta` is empty
+        with contextlib.suppress(ValueError, OSError, KeyError):
             existing_pkg_metadata = self._load_metadata(Path(path))
             if existing_pkg_metadata['version'] == self._meta['version']:
                 fetch_required = False
-        except ValueError:
-            # Ignore _load_metadata errors
-            pass
-        except OSError:
-            # Ignore Not Found
-            pass
-        except KeyError:
-            # ignore if `_meta` is empty
-            pass
-
         self._path = path
         self._updated = False
-
         if fetch_required:
             self._fetch_and_extract()
-
         self._meta = {**self._meta, **self._load_metadata(Path(self._path))}
         self._installed = True
         return True
@@ -336,22 +328,7 @@ class HttpPackageHandler(PackageHandler):
 
     def _load_metadata(self, path: Path):
         """Load the package.json file into memory."""
-        try:
-            with open(path / 'package.json') as package:
-                meta = json.load(package)
-                if 'name' not in meta:
-                    message = 'meta file missing name value'
-                    raise ValueError(message)
-                if self._meta['name'] != meta['name']:
-                    message = 'meta name does not match provided package name'
-                    raise ValueError(message)
-                if 'version' not in meta:
-                    message = 'meta file missing version value'
-                    raise ValueError(message)
-                return meta
-        except JSONDecodeError:
-            message = 'invalid package file format'
-            raise ValueError(message)
+        return super().validate_metadata(path)
 
     @staticmethod
     def _remove_files(path: Path) -> None:
