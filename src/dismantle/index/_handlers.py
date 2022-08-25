@@ -10,6 +10,8 @@ from typing import Any, Dict, Iterator, Optional, Union
 
 import requests
 
+from dismantle.utils import _parse_filepath
+
 
 class IndexHandler(metaclass=abc.ABCMeta):
     """Creates a base index handler to be extended."""
@@ -40,7 +42,7 @@ class IndexHandler(metaclass=abc.ABCMeta):
         ...
 
     @abc.abstractmethod
-    def find(self) -> Union[list, None]:
+    def find(self, value: str) -> Union[list, None]:
         """Add interface to index finder."""
         ...
 
@@ -67,7 +69,7 @@ class JsonFileIndexHandler(IndexHandler):
 
     def __init__(self, path: str, cache_dir: Optional[str] = None) -> None:
         """With the given path, process data and return the results."""
-        path = str(path)[7:] if str(path)[:7] == 'file://' else str(path)
+        path = _parse_filepath(path)
         self._path = Path(expanduser(path)).resolve()
         if not self._path.exists():
             message = 'index file not found'
@@ -102,7 +104,7 @@ class JsonFileIndexHandler(IndexHandler):
     @staticmethod
     def handles(index: Union[str, Path]) -> bool:
         """Check if the index format is file:// or a path."""
-        path = str(index)[7:] if str(index)[:7] == 'file://' else index
+        path = _parse_filepath(index)
         try:
             return Path(str(path)).exists()
         except OSError:
@@ -168,7 +170,7 @@ class JsonUrlIndexHandler(IndexHandler):
     @staticmethod
     def handles(index: Union[str, Path]) -> bool:
         """Check if the index format is file:// or a path."""
-        return str(index)[0:4] == 'http'
+        return str(index).startswith('http')
 
     @property
     def outdated(self) -> bool:

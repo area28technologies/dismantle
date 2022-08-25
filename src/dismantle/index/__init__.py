@@ -1,4 +1,6 @@
 """Provides the ability to handle package index files."""
+
+import itertools
 from typing import List, Type
 
 from dismantle.index._handlers import (
@@ -21,13 +23,10 @@ cache: str
 def get_packages():
     """Get the list of package meta from all the provided indexes."""
     packages = {}
-
-    for index in indicies_list:
-        for handler in handlers_list:
-            if handler.handles(index):
-                data = handler(index, cache)
-                packages.update(data.packages())
-
+    for index, handler in itertools.product(indicies_list, handlers_list):
+        if handler.handles(index):
+            data = handler(index, cache)
+            packages.update(data.packages())
     return packages
 
 
