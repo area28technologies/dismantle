@@ -22,7 +22,7 @@ class Plugins:
         self._exclude = {'__pycache__'}
 
         # check that the types are a subclass of IPlugin
-        if not all([issubclass(i, IPlugin) for i in types]):
+        if not all(issubclass(i, IPlugin) for i in types):
             raise ValueError('all plugin types must extend IPlugin')
 
         self._types = types
@@ -54,17 +54,16 @@ class Plugins:
     def _import(self, path, prefix):
         """Import a file or module into our imports list."""
         if os.path.isdir(path):
-            spec = ('py', 'r', Loader.PKG_DIRECTORY)
+            spec = 'py', 'r', Loader.PKG_DIRECTORY
             module = Loader.load_module(prefix, None, path, spec)
         else:
-            with open(path + '.py', 'r') as plugin_file:
-                spec = ('py', 'r', Loader.PY_SOURCE)
+            with open(f'{path}.py', 'r') as plugin_file:
+                spec = 'py', 'r', Loader.PY_SOURCE
                 module = Loader.load_module(
                     prefix,
                     plugin_file,
                     f'{path}.py',
-                    spec
-                )
+                    spec)
         return module
 
     @property
