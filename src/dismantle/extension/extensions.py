@@ -22,7 +22,7 @@ class Extensions:
         self._include = ('.py', '.cpython-37.pyc')
 
         # check that the types are a subclass of IExtension
-        if not all([issubclass(i, IExtension) for i in types]):
+        if not all(issubclass(i, IExtension) for i in types):
             raise ValueError('all exntesion types must extend IExtension')
         self._types = types
         for category in self._types:
@@ -59,7 +59,7 @@ class Extensions:
         try:
             spec.loader.exec_module(module)
         except Exception as e:  # NOQA: E722
-            raise ModuleNotFoundError(f'error in {prefix} ({e})')
+            raise ModuleNotFoundError(f'error in {prefix} ({e})') from e
         return module
 
     def _register(self) -> None:
@@ -72,7 +72,7 @@ class Extensions:
                             name = '.'.join([i.prefix, cls_name])
                             self._extensions[subclass._category][name] = cls
 
-    def category(self, category) -> list:
+    def category(self, category) -> dict:
         """Return the list of extensions for a category."""
         return self._extensions[category]
 
