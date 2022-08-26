@@ -84,7 +84,7 @@ class PackageHandler(metaclass=abc.ABCMeta):
         """Verify a packages hash with the provided signature."""
         ...
 
-    def validate_metadata(self, path):
+    def _load_metadata(self, path: Union[str, Path]):
         """Checks to see if package metadata is valid"""
         try:
             with open(path / 'package.json') as package:
@@ -102,6 +102,7 @@ class PackageHandler(metaclass=abc.ABCMeta):
         except JSONDecodeError as e:
             message = 'invalud package file format'
             raise ValueError(message) from e
+
 
 class LocalPackageHandler(PackageHandler):
     """Directory package structure."""
@@ -129,7 +130,7 @@ class LocalPackageHandler(PackageHandler):
 
     @property
     def name(self) -> str:
-        """Return the name of the package from the meta data."""
+        """Return the name of the package from the metadata."""
         return self.meta['name']
 
     @property
@@ -140,7 +141,7 @@ class LocalPackageHandler(PackageHandler):
     def __getattr__(self, name):
         """Return metadata.
 
-        Return an attribute from the meta data if the data doesnt exist.
+        Return an attribute from the metadata if the data doesn't exist.
         """
         if name not in self._meta:
             message = f'{name} is an invalid attribute'
@@ -177,7 +178,7 @@ class LocalPackageHandler(PackageHandler):
         path = _parse_filepath(path)
         self._path = path or self._src
         self._format.extract(self._src, self._path)
-        self._meta = {**self._meta, **self._load_metadata(self._path)}
+        self._meta = {**self._meta, **super()._load_metadata(Path(self._path))}
         self._installed = True
         return True
 
@@ -195,12 +196,6 @@ class LocalPackageHandler(PackageHandler):
             return True
         message = 'the local package handler does not support verification'
         raise ValueError(message)
-
-    def _load_metadata(self, path: Union[str, Path]):
-        """Load the package.json file into memory."""
-        path = Path(_parse_filepath(path))
-        return super().validate_metadata(path)
-
 
     @staticmethod
     def _remove_files(path: Union[str, Path]) -> None:
@@ -258,7 +253,7 @@ class HttpPackageHandler(PackageHandler):
         return self.meta['name']
 
     def __getattr__(self, name):
-        """Return attrib from meta data if the data doesnt exist."""
+        """Return attrib from metadata if the data doesn't exist."""
         if name not in self._meta:
             message = f'{name} is an invalid attribute'
             raise AttributeError(message)
@@ -300,14 +295,14 @@ class HttpPackageHandler(PackageHandler):
         fetch_required = True
         # Ignore _load_metadata, Not Found, and if `_meta` is empty
         with contextlib.suppress(ValueError, OSError, KeyError):
-            existing_pkg_metadata = self._load_metadata(Path(path))
+            existing_pkg_metadata = super()._load_metadata(Path(path))
             if existing_pkg_metadata['version'] == self._meta['version']:
                 fetch_required = False
         self._path = path
         self._updated = False
         if fetch_required:
             self._fetch_and_extract()
-        self._meta = {**self._meta, **self._load_metadata(Path(self._path))}
+        self._meta = {**self._meta, **super()._load_metadata(Path(self._path))}
         self._installed = True
         return True
 
@@ -325,10 +320,6 @@ class HttpPackageHandler(PackageHandler):
             return True
         message = 'the http package handler does not support verification'
         raise ValueError(message)
-
-    def _load_metadata(self, path: Path):
-        """Load the package.json file into memory."""
-        return super().validate_metadata(path)
 
     @staticmethod
     def _remove_files(path: Path) -> None:
