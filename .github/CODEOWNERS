@@ -1,4 +1,3 @@
-* @garysb
+* @area28technologies/client-hub-code-owners
 
-/.github/ @manavtidhan
-/.github/CODEOWNERS @garysb
+/.github/ @area28technologies/devops-code-owners
