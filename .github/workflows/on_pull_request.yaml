@@ -46,8 +46,9 @@ jobs:
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
       - run: echo "🖥️ The workflow is now ready to run linting."
       - name: Set up PDM
-        uses: pdm-project/setup-pdm@main
+        uses: pdm-project/setup-pdm@06d2d28e101eae9f872114db9143d9d6ee6878c7
         with:
+          version: 1.15.4
           python-version: ${{ matrix.python-version }}
       - run: echo "🎉 PDM has been installed successfully."
       - run: echo "🖥️ Installing dependencies to run linting."
@@ -77,8 +78,9 @@ jobs:
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
       - run: echo "🖥️ The workflow is now ready to run unit testing."
       - name: Set up PDM
-        uses: pdm-project/setup-pdm@main
+        uses: pdm-project/setup-pdm@06d2d28e101eae9f872114db9143d9d6ee6878c7
         with:
+          version: 1.15.4
           python-version: ${{ matrix.python-version }}
       - run: echo "🎉 PDM has been installed successfully."
       - run: echo "🖥️ Installing dependencies to run unit tests."
