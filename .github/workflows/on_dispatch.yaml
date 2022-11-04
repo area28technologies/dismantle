@@ -95,7 +95,9 @@ jobs:
       - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
       - run: echo "🖥️ The workflow is now ready to check git commit messages."
       - name: Set up PDM
-        uses: pdm-project/setup-pdm@main
+        uses: pdm-project/setup-pdm@06d2d28e101eae9f872114db9143d9d6ee6878c7
+        with:
+          version: 1.15.4
       - run: echo "🎉 PDM has been installed successfully."
       - run: echo "🖥️ Installing dependencies to build documentation."
       - name: Install dependencies
@@ -130,7 +132,9 @@ jobs:
     steps:
       - uses: actions/checkout@v3
       - name: Set up PDM
-        uses: pdm-project/setup-pdm@main
+        uses: pdm-project/setup-pdm@06d2d28e101eae9f872114db9143d9d6ee6878c7
+        with:
+          version: 1.15.4
       - run: echo "🎉 PDM has been installed successfully."
       - run: echo "🖥️ Installing dependencies to build a distribution."
       - name: Install dependencies
@@ -175,7 +179,9 @@ jobs:
           exit 1
       - run: echo "🖥️ The workflow is now ready to publish."
       - name: Set up PDM
-        uses: pdm-project/setup-pdm@main
+        uses: pdm-project/setup-pdm@06d2d28e101eae9f872114db9143d9d6ee6878c7
+        with:
+          version: 1.15.4
       - run: echo "🎉 PDM has been installed successfully."
       - run: echo "🖥️ Building package."
       - name: Building
