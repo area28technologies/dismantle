@@ -12,6 +12,7 @@ retrieved using a web request.
 import abc
 import atexit
 import json
+import logging
 import shutil
 import tempfile
 from hashlib import md5
@@ -27,6 +28,8 @@ from dismantle.package._formats import (
     PackageFormat,
     ZipPackageFormat
 )
+
+log = logging.getLogger(__name__)
 
 Formats = Optional[List[PackageFormat]]
 
@@ -213,8 +216,7 @@ class HttpPackageHandler(PackageHandler):
         self,
         name: str,
         src: Union[str, Path],
-        formats: Formats = None,
-        cache_dir: Optional[Union[str, Path]] = None
+        formats: Formats = None
     ):
         """Initialise the package."""
         self._meta = {}
@@ -223,14 +225,11 @@ class HttpPackageHandler(PackageHandler):
         self._installed = False
         self._updated = False
         self._src = src
-        cache_dir = Path(cache_dir or '')
 
-        if not cache_dir:
-            tmp_cache = tempfile.TemporaryDirectory()
-            cache_dir = Path(tmp_cache.name)
-            atexit.register(tmp_cache.cleanup)
-        else:
-            cache_dir.mkdir(0x777, True, True)
+        tmp_cache = tempfile.TemporaryDirectory()
+        cache_dir = Path(tmp_cache.name)
+        atexit.register(tmp_cache.cleanup)
+
         parts = urlparse(str(src))
         ext = ''.join(Path(parts.path).suffixes)
         self._cache = Path(cache_dir / Path(name + ext))
@@ -282,7 +281,10 @@ class HttpPackageHandler(PackageHandler):
         if req.status_code not in [200, 304]:
             raise FileNotFoundError(req.status_code)
         elif req.status_code == 200:
-            self._cache.parents[0].mkdir(parents=True, exist_ok=True)
+            # Make sure parent folder of the cache exists
+            self._cache.parents[0].mkdir(0o777, parents=True, exist_ok=True)
+            log.info(f'Creating dir {self._cache.parents[0]} to hold cache')
+            # Write the package raw bytes into a single cache file
             with open(self._cache, 'wb') as cached_package:
                 cached_package.write(req.content)
             self._updated = True
