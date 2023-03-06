@@ -2,6 +2,7 @@
 import abc
 import atexit
 import json
+import logging
 import tempfile
 from hashlib import md5
 from os.path import expanduser
@@ -9,6 +10,8 @@ from pathlib import Path
 from typing import Any, Dict, Iterator, Optional, Union
 
 import requests
+
+log = logging.getLogger(__name__)
 
 
 class IndexHandler(metaclass=abc.ABCMeta):
@@ -125,7 +128,8 @@ class JsonUrlIndexHandler(IndexHandler):
             atexit.register(tmp_cache_dir.cleanup)
             cache_dir = str(tmp_cache_dir)
         self._cache = Path(cache_dir)
-        self._cache.mkdir(0x777, True, True)
+        self._cache.mkdir(0o777, parents=True, exist_ok=True)
+        log.info(f'Creating dir {self._cache}')
         self._cached_index = Path(self._cache, 'index.json')
         self._cached_index.touch(exist_ok=True)
         self._updated = False

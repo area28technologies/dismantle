@@ -3,4 +3,11 @@ import logging
 
 from dismantle.__version__ import __version__  # noqa: F401
 
-logging.getLogger(__name__).addHandler(logging.NullHandler())
+logging.basicConfig(
+    level='DEBUG',
+    format='%(asctime)s - %(name)s - [ %(message)s ]',
+    datefmt='%d-%b-%y %H:%M:%S',
+    force=True,
+    handlers=[logging.NullHandler()],
+)
+log = logging.getLogger(__name__)
